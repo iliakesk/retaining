@@ -42,9 +42,10 @@ body{
   padding:.2rem
 }
 
-.card>label{
+.card label{
   display:block;
   border-bottom: 1px solid grey;
+  user-select: none;
 }
 
 .card-data{
@@ -52,6 +53,15 @@ body{
   display:flex;
   flex-direction: column;
   border-left:1px solid grey;
+}
+
+input[type=checkbox]{
+  display:none
+}
+
+input:checked + label{
+  background-color: rgb(225, 225, 225);
+  color:rgb(28, 28, 28)
 }
 
 input{
@@ -75,4 +85,6 @@ input{
 
 #canvas{
   background-color: rgb(223, 223, 223);
+  width:70vw;
+  height:80vh;
 }
