@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { useState } from 'react'
+import  { Component } from "react";
 import Data from './Data'
 import Canvas from './Canvas'
 
@@ -25,7 +24,7 @@ class App extends Component {
 
   // gia to child canvas component - gia na vlepei pote allazei kati kai na to sxediazei
   //https://stackoverflow.com/questions/40795906/onchange-event-for-react-child-component-to-update-state
-  updateState(field, value) {
+  updateState(field) {
     this.setState(field);
 }
 
@@ -40,10 +39,9 @@ class App extends Component {
   render() {
     return (
     <div className="app">
-    <Data state = {this.state} onUpdate = {this.updateState}/>
-    <Canvas data = {this.state}/>
-    
-  </div>
+      <Data state = {this.state} onUpdate = {this.updateState}/>
+      <Canvas data = {this.state}/>
+    </div>
   )
   }
 }
