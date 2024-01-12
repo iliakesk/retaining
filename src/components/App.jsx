@@ -18,28 +18,29 @@ class App extends Component {
       groundLevelBack: 2700,
       slopeBack:30
     }
-    this.updateState = this.updateState.bind(this);
+    this.onUpdate = this.onUpdate.bind(this);
   }
 
 
   // gia to child canvas component - gia na vlepei pote allazei kati kai na to sxediazei
   //https://stackoverflow.com/questions/40795906/onchange-event-for-react-child-component-to-update-state
-  updateState(field) {
+  onUpdate(field) {
+    // console.log(field)
     this.setState(field);
 }
 
   componentDidUpdate(){
-    const size = document.getElementById("printingLabel")
+    // const size = document.getElementById("printingLabel")
     console.log("App updated")
-    // console.log(this.state)
-    size.innerText = this.state.baseLength
+    console.log(this.state)
+    // size.innerText = this.state.toe
   }
 
 
   render() {
     return (
     <div className="app">
-      <Data state = {this.state} onUpdate = {this.updateState}/>
+      <Data state = {this.state} onUpdate = {this.onUpdate}/>
       <Canvas data = {this.state}/>
     </div>
   )

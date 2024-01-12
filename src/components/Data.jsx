@@ -1,4 +1,5 @@
-import  { Component,  } from "react";
+import  { Component } from "react";
+import RetainA from './RetainA'
 import PropTypes from 'prop-types'
 
 class Data extends Component {
@@ -14,48 +15,27 @@ class Data extends Component {
     this.state = this.props.state
     this.onChange = this.onChange.bind(this);
   }
+  
+  // onUpdate(){
+
+  // }
 
   onChange(e) {
-    e.preventDefault();
     this.setState({[`${e.target.name}`]: Number(e.target.value)});
     this.props.onUpdate({[`${e.target.name}`]: Number(e.target.value)})
-    // console.log(this.state)
     // console.log(this.state.baseLength)
+  }
+
+  componentDidUpdate(){
+    console.log("Data updated")
+    // this.setState(this.props.state) ΠΟΤΕ ΕΔΩ ΜΕΣΑ setState ΓΙΑΤΙ ΚΑΝΕΙ ΑΠΕΙΡΑ LOOP
+    console.log(this.state)
   }
 
   render() {
     return (
-      
       <div className="model-box">
-        <div className="cardsection">
-          <div className="card">
-            <input type="checkbox" id="footing" name="footing" value="True"></input>
-            <label htmlFor="footing" className="toplabel">
-              Footing
-            </label>
-            <div className="card-data">
-              <label>Toe length:</label>
-              <input id="toe" type="text" name="toe" placeholder={this.state.toe}  onChange={this.onChange}/>
-              <label>Heel length:</label>
-              <input id="heel" type="text" name="heel" placeholder={this.state.heel}  onChange={this.onChange}/>
-              <label>Thickness:</label>
-              <input id="footThickness" type="text" name="footThickness" placeholder={this.state.footThickness}  onChange={this.onChange}/>
-              <div id="printingLabel"></div>
-            </div>
-          </div>
-          <div className="card">
-            <input type="checkbox" id="stem" name="stem" value="True"></input>
-            <label htmlFor="stem" className="toplabel">
-              Stem
-            </label>
-            <div className="card-data">
-              <label>Stem height:</label>
-              <input id="stemHeight" type="text" name="stemHeight" placeholder={this.state.stemHeight}  onChange={this.onChange}/>
-              <label>Stem top:</label>
-              <input id="stemTop" type="text" name="stemTop" placeholder={this.state.stemTop}  onChange={this.onChange}/>
-            </div>
-          </div>
-        </div>
+        <RetainA props = {this.state} onUpdate = {this.onChange}/>
         <div className="cardsection">
           <div className="card">
             <input type="checkbox" id="soil" name="soil" value="True"></input>
