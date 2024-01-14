@@ -13,10 +13,12 @@ class App extends Component {
       footThickness: 200,
       stemHeight: 2500,
       stemTop: 200,
-      gorundLevelFront: 200,
+      groundLevelFront: 200,
       slopeFront:0,
       groundLevelBack: 2700,
-      slopeBack:30
+      slopeBack:30,
+      availHeight:0,
+      availWidth:0
     }
     this.onUpdate = this.onUpdate.bind(this);
   }
@@ -26,13 +28,26 @@ class App extends Component {
   //https://stackoverflow.com/questions/40795906/onchange-event-for-react-child-component-to-update-state
   onUpdate(field) {
     // console.log(field)
-    this.setState(field);
+    this.setState(field);//edw prepei na to grapsw kapws diaforetika
 }
 
+  componentDidMount() {
+    const availHeight = 0.8*window.screen.availHeight
+    const availWidth = 0.8*window.screen.availWidth
+    const margin = 0.05*availWidth
+    this.setState({availHeight, availWidth, margin})
+    // const canvas = document.getElementById("canvas")
+    // console.log(canvas.width)
+    // console.log(canvas.height)
+    // this.setCanvasSize(availHeight, availWidth)
+  }
+
   componentDidUpdate(){
-    // const size = document.getElementById("printingLabel")
     console.log("App updated")
     console.log(this.state)
+    // const canvas = document.getElementById("canvas")
+    // console.log(canvas.width)
+    // console.log(canvas.height)
     // size.innerText = this.state.toe
   }
 
@@ -79,11 +94,4 @@ export default App
   // }
   
 
-  // componentDidMount() {
-  //   const availHeight = window.screen.availHeight
-  //   const availWidth = window.screen.availWidth
-    
-  //   this.setCanvasSize(availHeight, availWidth)
-  //   edw thelei kati async giati mporei na sxediasei prin ftiaxei ton kamva
-  //   this.drawAll()
-  // }
+
