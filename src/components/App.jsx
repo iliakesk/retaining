@@ -26,7 +26,6 @@ class App extends Component {
   }
 
 
-  // gia to child canvas component - gia na vlepei pote allazei kati kai na to sxediazei
   //https://stackoverflow.com/questions/40795906/onchange-event-for-react-child-component-to-update-state
   onUpdate(field) {
     // console.log(field)
