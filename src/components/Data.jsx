@@ -1,7 +1,11 @@
-import  { useCallback } from "react";
+import  { useCallback } from "react";        
+import PropTypes  from 'prop-types'
 import RetainA from './RetainA'
 
-
+Data.propTypes = {
+  props: PropTypes.object,
+  onUpdate:PropTypes.func
+}
 
 export default function Data(props){
     console.log("Data updated")

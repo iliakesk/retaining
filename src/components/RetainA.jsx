@@ -1,5 +1,15 @@
-import  { useCallback } from "react";        
-        
+import  { useCallback, useEffect } from "react";        
+import PropTypes  from 'prop-types'
+
+
+
+RetainA.propTypes = {
+  data: PropTypes.object,
+  onChange:PropTypes.func
+}
+
+
+
 export default function RetainA(props){
     console.log("Retain updated")
     // console.log(props.data)
@@ -7,7 +17,12 @@ export default function RetainA(props){
         console.log({[`${e.target.name}`]: Number(e.target.value)})
         const calcs = mergeData(e, props.data)
         props.onChange(calcs)
-    })
+    }, [props])
+
+    useEffect((e) => {
+      const {wMargin, hMargin, factor, drawing} = mergeData(e, props.data)
+      props.onChange({wMargin, hMargin, factor, drawing})
+  }, [props.data.availHeight, props.data.availWidth])
 
     return(
         <div className="cardsection">
@@ -41,34 +56,47 @@ export default function RetainA(props){
         </div>
     )
 }     
-        
-        
+                
         
 function mergeData(e, data){
-  data[e.target.name] = Number(e.target.value)
-  const totalWidth = data.toe+data.heel+data.stemTop+data.leftSoilMargin+data.rightSoilMargin
-  const totalHeight = data.footThickness+data.stemHeight
-  ({wMargin, hMargin} = calcMargins(totalWidth, totalHeight))
-  // const newdata = {...data, wMargin, hMargin}
-  const drawing = createDrawing(...data, wMargin, hMargin)
-  return {...data, wMargin, hMargin}
+  if (e){
+    data[e.target.name] = Number(e.target.value)
+  }
+  
+  const designWidth = data.toe+data.heel+data.stemTop+data.leftSoilMargin+data.rightSoilMargin
+  const designHeight = data.footThickness+data.stemHeight
+
+  const factor = scaleFactor(data)
+  const {wMargin, hMargin} = calcMargins(designWidth, designHeight, factor)
+  const drawing = createDrawing(data, wMargin, hMargin, factor)
+  return {wMargin, hMargin, factor, drawing}
 }
 
-function calcMargins(width, height){
+function calcMargins(designWidth, designHeight, scaleFactor){
   const canvas = document.getElementById("canvas")
-  const wMargin = (canvas.width-width)/2
-  const hMargin = (canvas.height-height)/2
+  const wMargin = (canvas.width-scaleFactor*designWidth)/2
+  const hMargin = (canvas.height-scaleFactor*designHeight)/2
   return {wMargin, hMargin}
 }
+  //   if (designWidth > designHeight){
+  //     return {wMargin:0, hMargin:(canvas.width-scaleFactor*designWidth)/2}
+  //   }else if(designWidth < designHeight){
+  //     return {wMargin:(canvas.height-scaleFactor*designHeight)/2, hMargin:0}
+  //   }else return {wMargin:0, hMargin:0}
+  // }
 
-function createDrawing(data){
-  console.log(data, wMargin, hMargin)
-  return
+function scaleFactor(data){
+  const canvas = document.getElementById("canvas")
+  const width = data.toe + data.heel + data.stemTop + data.leftSoilMargin + data.rightSoilMargin
+  const height = data.footThickness + data.stemHeight
+  const factor = canvas.height/Math.max(width, height)
+  return factor
 }
-        
-        
 
-
+function createDrawing(data, wMargin, hMargin, factor){
+  
+  return {data, wMargin, hMargin, factor}
+}
 
 // function drawPoints(data){
 //     //wall
@@ -82,3 +110,6 @@ function createDrawing(data){
 //         fillrects:{}
 //     }
 // }
+
+
+  
