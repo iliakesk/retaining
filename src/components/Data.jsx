@@ -1,41 +1,18 @@
-import  { Component } from "react";
+import  { useCallback } from "react";
 import RetainA from './RetainA'
-import PropTypes from 'prop-types'
 
-class Data extends Component {
-  static get propTypes() { 
-    return { 
-        state: PropTypes.any, 
-        onUpdate: PropTypes.func 
-    }; 
-  }
-  constructor(props) {
-    super(props);
-    
-    this.state = this.props.state
-    this.onChange = this.onChange.bind(this);
-  }
-  
-  // onUpdate(){
 
-  // }
 
-  onChange(e) {
-    this.setState({[`${e.target.name}`]: Number(e.target.value)});
-    this.props.onUpdate({[`${e.target.name}`]: Number(e.target.value)})
-    // console.log(this.state.baseLength)
-  }
-
-  componentDidUpdate(){
+export default function Data(props){
     console.log("Data updated")
-    // this.setState(this.props.state) ΠΟΤΕ ΕΔΩ ΜΕΣΑ setState ΓΙΑΤΙ ΚΑΝΕΙ ΑΠΕΙΡΑ LOOP
-    console.log(this.state)
-  }
+    const onChange = useCallback(data => {
+        props.onUpdate(data)
+    })
 
-  render() {
+
     return (
       <div className="model-box">
-        <RetainA props = {this.state} onUpdate = {this.onChange}/>
+        <RetainA data = {props.state} onChange = {onChange}/>
         <div className="cardsection">
           <div className="card">
             <input type="checkbox" id="soil" name="soil" value="True"></input>
@@ -44,13 +21,13 @@ class Data extends Component {
             </label>
             <div className="card-data">
               <label>Front ground level:</label>
-              <input id="gorundLevelFront" type="text" name="gorundLevelFront" placeholder={this.state.gorundLevelFront}  onChange={this.onChange}/>
+              <input id="gorundLevelFront" type="text" name="gorundLevelFront" placeholder={props.state.gorundLevelFront}  onChange={onChange}/>
               <label>Slope</label>
-              <input id="slopeFront" type="text" name="slopeFront" placeholder={this.state.slopeFront}  onChange={this.onChange}/>
+              <input id="slopeFront" type="text" name="slopeFront" placeholder={props.state.slopeFront}  onChange={onChange}/>
               <label>Back ground level:</label>
-              <input id="groundLevelBack" type="text" name="groundLevelBack" placeholder={this.state.groundLevelBack}  onChange={this.onChange}/>
+              <input id="groundLevelBack" type="text" name="groundLevelBack" placeholder={props.state.groundLevelBack}  onChange={onChange}/>
               <label>Slope:</label>
-              <input id="slopeBack" type="text" name="slopeBack" placeholder={this.state.slopeBack}  onChange={this.onChange}/>
+              <input id="slopeBack" type="text" name="slopeBack" placeholder={props.state.slopeBack}  onChange={onChange}/>
             </div>
           </div>
           <div className="card">
@@ -60,13 +37,13 @@ class Data extends Component {
             </label>
             <div className="card-data">
               <label>Base length:</label>
-              <input id="baseL" type="text" name="baseLength" placeholder={this.state.baseLength}  onChange={this.onChange}/>
+              <input id="baseL" type="text" name="baseLength" placeholder={props.state.baseLength}  onChange={onChange}/>
               <label>Base thickness:</label>
-              <input id="baseT" type="text" name="baseHeight" placeholder={this.state.baseHeight}  onChange={this.onChange}/>
+              <input id="baseT" type="text" name="baseHeight" placeholder={props.state.baseHeight}  onChange={onChange}/>
               <label>Wall height:</label>
-              <input id="wallH" type="text" name="wallHeight" placeholder={this.state.wallHeight}  onChange={this.onChange}/>
+              <input id="wallH" type="text" name="wallHeight" placeholder={props.state.wallHeight}  onChange={onChange}/>
               <label>Wall thickness:</label>
-              <input id="wallT" type="text" name="wallThick" placeholder={this.state.wallThick}  onChange={this.onChange}/>
+              <input id="wallT" type="text" name="wallThick" placeholder={props.state.wallThick}  onChange={onChange}/>
             </div>
           </div>
         </div>
@@ -78,9 +55,9 @@ class Data extends Component {
             </label>
             <div className="card-data">
               <label>Concrete:</label>
-              <input id="concrete" type="text" name="concrete" placeholder={this.state.baseLength}  onChange={this.onChange}/>
+              <input id="concrete" type="text" name="concrete" placeholder={props.state.baseLength}  onChange={onChange}/>
               <label>Steel:</label>
-              <input id="steel" type="text" name="steel" placeholder={this.state.baseHeight}  onChange={this.onChange}/>
+              <input id="steel" type="text" name="steel" placeholder={props.state.baseHeight}  onChange={onChange}/>
             </div>
           </div>
         </div>
@@ -89,8 +66,6 @@ class Data extends Component {
       </div>
     );
   }
-}
 
 
-export default Data;
 

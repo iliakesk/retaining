@@ -1,11 +1,12 @@
-import  { useCallback,  } from "react";        
+import  { useCallback } from "react";        
         
 export default function RetainA(props){
     console.log("Retain updated")
-    console.log(props.props)
-    const onChange = useCallback(e => {
-        e.preventDefault();
-        props.onUpdate(e)
+    // console.log(props.data)
+    const onBlur = useCallback(e => {
+        console.log({[`${e.target.name}`]: Number(e.target.value)})
+        const calcs = mergeData(e, props.data)
+        props.onChange(calcs)
     })
 
     return(
@@ -17,11 +18,11 @@ export default function RetainA(props){
             </label>
             <div className="card-data">
               <label>Toe length:</label>
-              <input id="toe" type="text" name="toe" placeholder={props.props.toe}  onChange={onChange}/>
+              <input id="toe" type="text" name="toe" placeholder={props.data.toe}  onBlur={onBlur}/>
               <label>Heel length:</label>
-              <input id="heel" type="text" name="heel" placeholder={props.props.heel}  onChange={onChange}/>
+              <input id="heel" type="text" name="heel" placeholder={props.data.heel}  onBlur={onBlur}/>
               <label>Thickness:</label>
-              <input id="footThickness" type="text" name="footThickness" placeholder={props.props.footThickness}  onChange={onChange}/>
+              <input id="footThickness" type="text" name="footThickness" placeholder={props.data.footThickness}  onBlur={onBlur}/>
               <div id="printingLabel"></div>
             </div>
           </div>
@@ -32,9 +33,9 @@ export default function RetainA(props){
             </label>
             <div className="card-data">
               <label>Stem height:</label>
-              <input id="stemHeight" type="text" name="stemHeight" placeholder={props.props.stemHeight}  onChange={onChange}/>
+              <input id="stemHeight" type="text" name="stemHeight" placeholder={props.data.stemHeight}  onBlur={onBlur}/>
               <label>Stem top:</label>
-              <input id="stemTop" type="text" name="stemTop" placeholder={props.props.stemTop}  onChange={onChange}/>
+              <input id="stemTop" type="text" name="stemTop" placeholder={props.data.stemTop}  onBlur={onBlur}/>
             </div>
           </div>
         </div>
@@ -43,6 +44,41 @@ export default function RetainA(props){
         
         
         
+function mergeData(e, data){
+  data[e.target.name] = Number(e.target.value)
+  const totalWidth = data.toe+data.heel+data.stemTop+data.leftSoilMargin+data.rightSoilMargin
+  const totalHeight = data.footThickness+data.stemHeight
+  ({wMargin, hMargin} = calcMargins(totalWidth, totalHeight))
+  // const newdata = {...data, wMargin, hMargin}
+  const drawing = createDrawing(...data, wMargin, hMargin)
+  return {...data, wMargin, hMargin}
+}
+
+function calcMargins(width, height){
+  const canvas = document.getElementById("canvas")
+  const wMargin = (canvas.width-width)/2
+  const hMargin = (canvas.height-height)/2
+  return {wMargin, hMargin}
+}
+
+function createDrawing(data){
+  console.log(data, wMargin, hMargin)
+  return
+}
         
         
-        
+
+
+
+// function drawPoints(data){
+//     //wall
+//     const wall = {}
+//     wall[1] = data.leftSoilMargin
+//     wall[2] = 
+//     return {
+//         paths:{wall:{},
+//                ground:{}},
+//         rects:{},
+//         fillrects:{}
+//     }
+// }

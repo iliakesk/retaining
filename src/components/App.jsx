@@ -18,7 +18,9 @@ class App extends Component {
       groundLevelBack: 2700,
       slopeBack:30,
       availHeight:0,
-      availWidth:0
+      availWidth:0,
+      leftSoilMargin:2000,
+      rightSoilMargin:4000
     }
     this.onUpdate = this.onUpdate.bind(this);
   }
@@ -28,8 +30,8 @@ class App extends Component {
   //https://stackoverflow.com/questions/40795906/onchange-event-for-react-child-component-to-update-state
   onUpdate(field) {
     // console.log(field)
-    this.setState(field);//edw prepei na to grapsw kapws diaforetika
-}
+    this.setState(field);
+  }
 
   componentDidMount() {
     const availHeight = 0.8*window.screen.availHeight
@@ -49,7 +51,9 @@ class App extends Component {
     // console.log(canvas.width)
     // console.log(canvas.height)
     // size.innerText = this.state.toe
-  }
+    //amesws meta prepei na janaypologizei tis diafores parametrous sto state px synoliko mhkos kai ycos
+}
+
 
 
   render() {
@@ -59,39 +63,8 @@ class App extends Component {
       <Canvas data = {this.state}/>
     </div>
   )
-  }
+ }
 }
 
 export default App
-
-
-
-  // drawAll(){
-  //   const canvas = document.getElementById("canvas")
-  //   const ctx = canvas.getContext('2d')
-  //   // console.log(this.props.data.baseLength)
-  //   ctx.beginPath()
-  //   ctx.moveTo(50,50)
-  //   ctx.lineTo(500, 500)
-  //   ctx.stroke()
-  // }
-
-  // setCanvasSize(availHeight, availWidth) {
-    
-  //   const totalH = this.state.margin*2 + this.state.baseHeight + this.state.wallHeight + this.state.soilBottom
-  //   const totalW = this.state.margin*2 + this.state.wallThick + this.state.baseLength + this.state.soilLeft + this.state.soilRight
-  //   const fH = 0.7*availHeight/totalH
-  //   const fW = 0.7*availWidth/totalW
-
-  //   const canvas = document.getElementById("canvas")
-  //   const size = document.getElementById("printingLabel")
-  //   size.innerText = this.state.baseLength
-  //   canvas.height = totalH*fH
-  //   canvas.width = totalW*fW
-  //   this.setState({canvasFactor: [fH, fW],
-  //                   canvasSize: [canvas.width, canvas.height]})
-    
-  // }
-  
-
 
