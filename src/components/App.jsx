@@ -3,11 +3,9 @@ import Data from './Data'
 import Canvas from './Canvas'
 
 
-
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+const availHeight = 0.8*window.screen.availHeight
+const availWidth = 0.8*window.screen.availWidth
+const initState = {
       toe: 500,
       heel: 1300,
       footThickness: 200,
@@ -17,11 +15,20 @@ class App extends Component {
       slopeFront:0,
       groundLevelBack: 2700,
       slopeBack:30,
-      availHeight:0,
-      availWidth:0,
+      availHeight,
+      availWidth,
       leftSoilMargin:2000,
       rightSoilMargin:4000
     }
+
+
+// console.log(availHeight)
+// console.log(availWidth)
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = initState
     this.onUpdate = this.onUpdate.bind(this);
   }
 
@@ -32,20 +39,20 @@ class App extends Component {
     this.setState(field);
   }
 
-  componentDidMount() {
-    const availHeight = 0.8*window.screen.availHeight
-    const availWidth = 0.8*window.screen.availWidth
-    const margin = 0.05*availWidth
-    this.setState({availHeight, availWidth, margin})
+  // componentDidMount() {
+    // const availHeight = 0.8*window.screen.availHeight
+    // const availWidth = 0.8*window.screen.availWidth
+    // const margin = 0.05*Math.max(availHeight, availWidth)
+    // this.setState({availHeight, availWidth, margin})
     // const canvas = document.getElementById("canvas")
     // console.log(canvas.width)
     // console.log(canvas.height)
     // this.setCanvasSize(availHeight, availWidth)
-  }
+  // }
 
   componentDidUpdate(){
     console.log("App updated")
-    console.log(this.state)
+    // console.log(this.state)
     // const canvas = document.getElementById("canvas")
     // console.log(canvas.width)
     // console.log(canvas.height)
