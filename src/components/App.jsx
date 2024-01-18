@@ -21,10 +21,6 @@ const initState = {
       rightSoilMargin:4000
     }
 
-
-// console.log(availHeight)
-// console.log(availWidth)
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -32,35 +28,14 @@ class App extends Component {
     this.onUpdate = this.onUpdate.bind(this);
   }
 
-
   //https://stackoverflow.com/questions/40795906/onchange-event-for-react-child-component-to-update-state
   onUpdate(field) {
-    // console.log(field)
     this.setState(field);
   }
 
-  // componentDidMount() {
-    // const availHeight = 0.8*window.screen.availHeight
-    // const availWidth = 0.8*window.screen.availWidth
-    // const margin = 0.05*Math.max(availHeight, availWidth)
-    // this.setState({availHeight, availWidth, margin})
-    // const canvas = document.getElementById("canvas")
-    // console.log(canvas.width)
-    // console.log(canvas.height)
-    // this.setCanvasSize(availHeight, availWidth)
-  // }
-
   componentDidUpdate(){
-    console.log("App updated")
-    // console.log(this.state)
-    // const canvas = document.getElementById("canvas")
-    // console.log(canvas.width)
-    // console.log(canvas.height)
-    // size.innerText = this.state.toe
-    //amesws meta prepei na janaypologizei tis diafores parametrous sto state px synoliko mhkos kai ycos
+    console.log(this.state)
 }
-
-
 
   render() {
     return (
