@@ -8,17 +8,17 @@ const availWidth = 0.8*window.screen.availWidth
 const initState = {
       toe: 500,
       heel: 1300,
-      footThickness: 200,
+      footHeight: 200,//footThickness
       stemHeight: 2500,
-      stemTop: 200,
-      groundLevelFront: 200,
+      stemThickness: 200,//stemTop
+      soilDepthFront: 200,//groundLevelFront
       slopeFront:0,
-      groundLevelBack: 2700,
+      soilDepthBack: 2700,//groundLevelBack
       slopeBack:30,
       availHeight,
       availWidth,
-      leftSoilMargin:2000,
-      rightSoilMargin:4000
+      leftSoilLength:2000,//leftSoilMargin
+      rightSoilLength:4000//rightSoilMargin
     }
 
 class App extends Component {

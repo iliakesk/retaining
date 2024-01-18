@@ -1,6 +1,6 @@
 import { useEffect } from "react";        
 import PropTypes  from 'prop-types'
-// import { createLogger } from "vite";
+import {draw} from "../calculations/drawing"
 
 
 Canvas.propTypes = {
@@ -12,8 +12,11 @@ Canvas.propTypes = {
 export default function Canvas({data}) {
     
     useEffect(() => {
-        drawSoil(data)
-    }, [data])
+        if(data.drawing){
+            draw(data.drawing)
+        }
+        
+    }, [data.drawing])
 
 
     return (
@@ -21,10 +24,3 @@ export default function Canvas({data}) {
     );
 }
 
-
-
-
-function drawSoil(){
-    
-    return
-}
