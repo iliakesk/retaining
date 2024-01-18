@@ -16,8 +16,10 @@ export function draw(drawing){
         ctx.beginPath()
         ctx.moveTo(startpoint[0], startpoint[1])
         while(nextpoint){
+            console.log(nextpoint)
             ctx.lineTo(nextpoint[0], nextpoint[1])
             i=i+1
+            nextpoint = line[i]
         }
         ctx.stroke()
     })
