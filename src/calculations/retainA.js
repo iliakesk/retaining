@@ -37,32 +37,55 @@ export function mergeData(e, data){
 
   
   function createShapes(data, wMargin, hMargin, factor){
-      //arrays of points i objects of lines
+
+      const lines = {leftGround:{
+                                  color:"color 1",
+                                  line:[
+                                        [wMargin, data.availHeight - hMargin - factor*data.soilDepthFront],
+                                        [factor*data.leftSoilLength + wMargin, data.availHeight - hMargin - factor*data.soilDepthFront]
+                                      ]
+                                },
+                    rightGround:{
+                                  color:"color 2",
+                                  line:[
+                                        [wMargin + factor*data.leftSoilLength + factor*data.stemThickness, data.availHeight - hMargin - factor*data.soilDepthBack],
+                                        [wMargin + factor*data.leftSoilLength + factor*data.stemThickness + factor*data.rightSoilLength, data.availHeight - hMargin - factor*data.soilDepthBack]
+                                      ]
+                                },
+                    rightround:{
+                                  color:"color 3",
+                                  line:[
+                                        [wMargin, data.availHeight - hMargin - factor*data.soilDepthFront],
+                                        [wMargin + factor*data.leftSoilLength + factor*data.stemThickness, data.availHeight - hMargin - factor*data.soilDepthBack],
+                                        [factor*data.leftSoilLength + wMargin, data.availHeight - hMargin - factor*data.soilDepthFront]
+                                      ]
+                                }
+                    }
+      //arrays of points i objects of lines 1
       // const lines = {leftGround:{0:[wMargin, data.availHeight - hMargin - factor*data.soilDepthFront],
       //                           1:[factor*data.leftSoilLength + wMargin, data.availHeight - hMargin - factor*data.soilDepthFront]},
       //               rightGround:{0:[wMargin + factor*data.leftSoilLength + factor*data.stemThickness, data.availHeight - hMargin - factor*data.soilDepthBack],
       //                           1:[wMargin + factor*data.leftSoilLength + factor*data.stemThickness + factor*data.rightSoilLength, data.availHeight - hMargin - factor*data.soilDepthBack]}}
 
 
+      //arrays of points i objects of lines 2
+
       // arrays of points in arrays of lines
-      const lines = {leftGround:[
-                                  [wMargin, data.availHeight - hMargin - factor*data.soilDepthFront],
-                                  [factor*data.leftSoilLength + wMargin, data.availHeight - hMargin - factor*data.soilDepthFront]
-                                ],
-                    rightGround:[
-                                  [wMargin + factor*data.leftSoilLength + factor*data.stemThickness, data.availHeight - hMargin - factor*data.soilDepthBack],
-                                  [wMargin + factor*data.leftSoilLength + factor*data.stemThickness + factor*data.rightSoilLength, data.availHeight - hMargin - factor*data.soilDepthBack]
-                                ],
-                    rightround:[
-                                  [wMargin, data.availHeight - hMargin - factor*data.soilDepthFront],
-                                  [wMargin + factor*data.leftSoilLength + factor*data.stemThickness, data.availHeight - hMargin - factor*data.soilDepthBack],
-                                  [factor*data.leftSoilLength + wMargin, data.availHeight - hMargin - factor*data.soilDepthFront]
+      // const lines = {leftGround:[
+      //                             [wMargin, data.availHeight - hMargin - factor*data.soilDepthFront],
+      //                             [factor*data.leftSoilLength + wMargin, data.availHeight - hMargin - factor*data.soilDepthFront]
+      //                           ],
+      //               rightGround:[
+      //                             [wMargin + factor*data.leftSoilLength + factor*data.stemThickness, data.availHeight - hMargin - factor*data.soilDepthBack],
+      //                             [wMargin + factor*data.leftSoilLength + factor*data.stemThickness + factor*data.rightSoilLength, data.availHeight - hMargin - factor*data.soilDepthBack]
+      //                           ],
+      //               rightround:[
+      //                             [wMargin, data.availHeight - hMargin - factor*data.soilDepthFront],
+      //                             [wMargin + factor*data.leftSoilLength + factor*data.stemThickness, data.availHeight - hMargin - factor*data.soilDepthBack],
+      //                             [factor*data.leftSoilLength + wMargin, data.availHeight - hMargin - factor*data.soilDepthFront]
 
-                                ]
-                    }
-
-
-
+      //                           ]
+      //               }
 
       // map object
       // const lines = new Map([
