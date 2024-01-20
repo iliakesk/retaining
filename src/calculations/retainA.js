@@ -4,11 +4,12 @@ export function mergeData(e, data){
     if (e){
       data[e.target.name] = Number(e.target.value)
     }
+    // kati prepei na valw edw se periptvsh pou to toe i to heel ypervoun to xwma dejia i aristera
     
-    const designWidth = data.toe+data.heel+data.stemHeight+data.leftSoilLength+data.rightSoilLength
+    const designWidth = /*data.toe+data.heel+*/data.stemThickness+data.leftSoilLength+data.rightSoilLength
     const designHeight = data.footHeight+data.stemHeight
   
-    const factor = scaleFactor(data)
+    const factor = scaleFactor(designWidth, designHeight)
     const {wMargin, hMargin} = calcMargins(designWidth, designHeight, factor)
     const drawing = createShapes(data, wMargin, hMargin, factor)
     return {wMargin, hMargin, factor, drawing}
@@ -16,8 +17,9 @@ export function mergeData(e, data){
   
   function calcMargins(designWidth, designHeight, factor){
     const canvas = document.getElementById("canvas")
-    const wMargin = (canvas.width-factor*designWidth)/2
+    const wMargin = (canvas.width-factor*designWidth)
     const hMargin = (canvas.height-factor*designHeight)/2
+    
     return {wMargin, hMargin}
   }
     //   if (designWidth > designHeight){
@@ -27,17 +29,15 @@ export function mergeData(e, data){
     //   }else return {wMargin:0, hMargin:0}
     // }
   
-  function scaleFactor(data){
+  function scaleFactor(designWidth, designHeight){
     const canvas = document.getElementById("canvas")
-    const width = data.toe + data.heel + data.stemHeight + data.leftSoilLength + data.rightSoilLength
-    const height = data.footHeight + data.stemHeight
-    const factor = canvas.height/Math.max(width, height)
+    const factor = canvas.height/Math.max(designWidth, designHeight)
     return factor
   }
 
   
   function createShapes(data, wMargin, hMargin, factor){
-
+      console.log({wMargin, hMargin})
       const lines = {leftGround:{
                                   color:"color 1",
                                   line:[
@@ -52,21 +52,21 @@ export function mergeData(e, data){
                                         [wMargin + factor*data.leftSoilLength + factor*data.stemThickness + factor*data.rightSoilLength, data.availHeight - hMargin - factor*data.soilDepthBack]
                                       ]
                                 },
-                    rightround:{
+                    wall:{
                                   color:"color 3",
                                   line:[
-                                        [wMargin, data.availHeight - hMargin - factor*data.soilDepthFront],
-                                        [wMargin + factor*data.leftSoilLength + factor*data.stemThickness, data.availHeight - hMargin - factor*data.soilDepthBack],
-                                        [factor*data.leftSoilLength + wMargin, data.availHeight - hMargin - factor*data.soilDepthFront]
+                                        [wMargin + factor*(data.leftSoilLength - data.toe), data.availHeight - hMargin],//katw aristera
+                                        [wMargin + factor*(data.leftSoilLength - data.toe), data.availHeight - hMargin - factor*(data.footHeight)],//panw aristera
+                                        [wMargin + factor*(data.leftSoilLength), data.availHeight - hMargin - factor*(data.footHeight)],//mesiaristera
+                                        [wMargin + factor*(data.leftSoilLength), data.availHeight - hMargin - factor*(data.footHeight+data.stemHeight)],//mesi panw aristera
+                                        [wMargin + factor*(data.leftSoilLength + data.stemThickness), data.availHeight - hMargin - factor*(data.footHeight+data.stemHeight)],//mesi panw dejia
+                                        [wMargin + factor*(data.leftSoilLength + data.stemThickness), data.availHeight - hMargin - factor*(data.footHeight)],//mesi dejia
+                                        [wMargin + factor*(data.leftSoilLength + data.stemThickness+data.heel), data.availHeight - hMargin - factor*(data.footHeight)],//panw dejia
+                                        [wMargin + factor*(data.leftSoilLength + data.stemThickness+data.heel), data.availHeight - hMargin],//katw dejia
+                                        [wMargin + factor*(data.leftSoilLength - data.toe), data.availHeight - hMargin]//prwto
                                       ]
                                 }
                     }
-      //arrays of points i objects of lines 1
-      // const lines = {leftGround:{0:[wMargin, data.availHeight - hMargin - factor*data.soilDepthFront],
-      //                           1:[factor*data.leftSoilLength + wMargin, data.availHeight - hMargin - factor*data.soilDepthFront]},
-      //               rightGround:{0:[wMargin + factor*data.leftSoilLength + factor*data.stemThickness, data.availHeight - hMargin - factor*data.soilDepthBack],
-      //                           1:[wMargin + factor*data.leftSoilLength + factor*data.stemThickness + factor*data.rightSoilLength, data.availHeight - hMargin - factor*data.soilDepthBack]}}
-
 
       //arrays of points i objects of lines 2
 

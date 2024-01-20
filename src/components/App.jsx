@@ -11,14 +11,16 @@ const initState = {
       footHeight: 200,//footThickness
       stemHeight: 2500,
       stemThickness: 200,//stemTop
-      soilDepthFront: 200,//groundLevelFront
+      soilDepthFront: 400,//groundLevelFront
       slopeFront:0,
-      soilDepthBack: 2700,//groundLevelBack
+      soilDepthBack: 2500,//groundLevelBack
       slopeBack:30,
       availHeight,
       availWidth,
       leftSoilLength:2000,//leftSoilMargin
       rightSoilLength:4000//rightSoilMargin
+      // leftSoilLength:Math.max(2000,toe),//leftSoilMargin
+      // rightSoilLength:Math.max(4000,heel)//rightSoilMargin
     }
 
 class App extends Component {
