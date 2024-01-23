@@ -17,7 +17,7 @@ export default function RetainA(props){
         const calcs = mergeData(e, props.data)
         props.onChange(calcs)
     }, [props])
-
+    
     // ayto pithanws na prepei na vgei ektos tou component. tha prepei ta arxika na ypologizontai apo alloy (diaforetika gia to kathe eidos toixoy)
     useEffect((e) => {
       console.log("useEffect run")

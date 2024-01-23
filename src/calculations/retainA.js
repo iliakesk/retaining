@@ -1,3 +1,17 @@
+// toe: 500,
+// heel: 1300,
+// footHeight: 200,
+// stemHeight: 2500,
+// stemThickness: 200,
+// // frontSoil.depth: backSoil.depth
+// frontSoil:{depth:400, slope:0},
+// backSoil:[{layer:1, depth:2500, slope:0}],
+// baseSoil:{},
+// availHeight,
+// availWidth,
+// leftSoilLength:2000,
+// rightSoilLength:4000
+
 
 // ypologizei dedomena toixoy, diastaseis, kentro sxedioy ktl
 export function mergeData(e, data){
@@ -41,15 +55,15 @@ export function mergeData(e, data){
       const lines = {leftGround:{
                                   color:"color 1",
                                   line:[
-                                        [wMargin, data.availHeight - hMargin - factor*data.soilDepthFront],
-                                        [factor*data.leftSoilLength + wMargin, data.availHeight - hMargin - factor*data.soilDepthFront]
+                                        [wMargin, data.availHeight - hMargin - factor*data.frontSoil.depth],
+                                        [factor*data.leftSoilLength + wMargin, data.availHeight - hMargin - factor*data.frontSoil.depth]
                                       ]
                                 },
                     rightGround:{
                                   color:"color 2",
-                                  line:[
-                                        [wMargin + factor*data.leftSoilLength + factor*data.stemThickness, data.availHeight - hMargin - factor*data.soilDepthBack],
-                                        [wMargin + factor*data.leftSoilLength + factor*data.stemThickness + factor*data.rightSoilLength, data.availHeight - hMargin - factor*data.soilDepthBack]
+                                  line:[//na kanw kati me map function gia na vgaxzei swsta ola ta layers toy backSoil pou pleon einai array kai na mhn exw to [0]
+                                        [wMargin + factor*data.leftSoilLength + factor*data.stemThickness, data.availHeight - hMargin - factor*data.backSoil[0].depth],
+                                        [wMargin + factor*data.leftSoilLength + factor*data.stemThickness + factor*data.rightSoilLength, data.availHeight - hMargin - factor*data.backSoil[0].depth]
                                       ]
                                 },
                     wall:{
@@ -72,27 +86,27 @@ export function mergeData(e, data){
 
       // arrays of points in arrays of lines
       // const lines = {leftGround:[
-      //                             [wMargin, data.availHeight - hMargin - factor*data.soilDepthFront],
-      //                             [factor*data.leftSoilLength + wMargin, data.availHeight - hMargin - factor*data.soilDepthFront]
+      //                             [wMargin, data.availHeight - hMargin - factor*data.frontSoil.depth],
+      //                             [factor*data.leftSoilLength + wMargin, data.availHeight - hMargin - factor*data.frontSoil.depth]
       //                           ],
       //               rightGround:[
-      //                             [wMargin + factor*data.leftSoilLength + factor*data.stemThickness, data.availHeight - hMargin - factor*data.soilDepthBack],
-      //                             [wMargin + factor*data.leftSoilLength + factor*data.stemThickness + factor*data.rightSoilLength, data.availHeight - hMargin - factor*data.soilDepthBack]
+      //                             [wMargin + factor*data.leftSoilLength + factor*data.stemThickness, data.availHeight - hMargin - factor*data.backSoil[0].depth],
+      //                             [wMargin + factor*data.leftSoilLength + factor*data.stemThickness + factor*data.rightSoilLength, data.availHeight - hMargin - factor*data.backSoil[0].depth]
       //                           ],
       //               rightround:[
-      //                             [wMargin, data.availHeight - hMargin - factor*data.soilDepthFront],
-      //                             [wMargin + factor*data.leftSoilLength + factor*data.stemThickness, data.availHeight - hMargin - factor*data.soilDepthBack],
-      //                             [factor*data.leftSoilLength + wMargin, data.availHeight - hMargin - factor*data.soilDepthFront]
+      //                             [wMargin, data.availHeight - hMargin - factor*data.frontSoil.depth],
+      //                             [wMargin + factor*data.leftSoilLength + factor*data.stemThickness, data.availHeight - hMargin - factor*data.backSoil[0].depth],
+      //                             [factor*data.leftSoilLength + wMargin, data.availHeight - hMargin - factor*data.frontSoil.depth]
 
       //                           ]
       //               }
 
       // map object
       // const lines = new Map([
-      //         ["leftGround",{0:[wMargin, data.availHeight - hMargin - factor*data.soilDepthFront],
-      //                     1:[factor*data.leftSoilLength + wMargin, data.availHeight - hMargin - factor*data.soilDepthFront]}],
-      //         ["rightGround",{0:[wMargin + factor*data.leftSoilLength + factor*data.stemThickness, data.availHeight - hMargin - factor*data.soilDepthBack],
-      //                     1:[wMargin + factor*data.leftSoilLength + factor*data.stemThickness + factor*data.rightSoilLength, data.availHeight - hMargin - factor*data.soilDepthBack]}]
+      //         ["leftGround",{0:[wMargin, data.availHeight - hMargin - factor*data.frontSoil.depth],
+      //                     1:[factor*data.leftSoilLength + wMargin, data.availHeight - hMargin - factor*data.frontSoil.depth]}],
+      //         ["rightGround",{0:[wMargin + factor*data.leftSoilLength + factor*data.stemThickness, data.availHeight - hMargin - factor*data.backSoil[0].depth],
+      //                     1:[wMargin + factor*data.leftSoilLength + factor*data.stemThickness + factor*data.rightSoilLength, data.availHeight - hMargin - factor*data.backSoil[0].depth]}]
       // ])
       
       

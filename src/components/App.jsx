@@ -1,27 +1,12 @@
 import  { Component } from "react";
 import Data from './Data'
 import Canvas from './Canvas'
+import model from '../data/model'
 
 
 const availHeight = 0.8*window.screen.availHeight
 const availWidth = 0.8*window.screen.availWidth
-const initState = {
-      toe: 500,
-      heel: 1300,
-      footHeight: 200,//footThickness
-      stemHeight: 2500,
-      stemThickness: 200,//stemTop
-      soilDepthFront: 400,//groundLevelFront
-      slopeFront:0,
-      soilDepthBack: 2500,//groundLevelBack
-      slopeBack:30,
-      availHeight,
-      availWidth,
-      leftSoilLength:2000,//leftSoilMargin
-      rightSoilLength:4000//rightSoilMargin
-      // leftSoilLength:Math.max(2000,toe),//leftSoilMargin
-      // rightSoilLength:Math.max(4000,heel)//rightSoilMargin
-    }
+const initState = model(availHeight, availWidth)
 
 class App extends Component {
   constructor(props) {
@@ -30,7 +15,6 @@ class App extends Component {
     this.onUpdate = this.onUpdate.bind(this);
   }
 
-  //https://stackoverflow.com/questions/40795906/onchange-event-for-react-child-component-to-update-state
   onUpdate(field) {
     this.setState(field);
   }
