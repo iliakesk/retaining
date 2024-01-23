@@ -5,7 +5,7 @@
 *{
   margin:0;
   padding:0;
-  outline: 1px solid red;
+  /* outline: 1px solid red; */
 }
 body{
   height:100vh;
@@ -84,3 +84,32 @@ input{
   height:80vh; */
   padding:1rem
 }
+
+
+
+
+
+
+.tabs{
+  background-color:var(--col-medium3);
+  color:var(--col-light2);
+  max-height:100%;
+}
+.tabs ul{
+  list-style-type: none;
+  display:flex;
+  
+}
+.tabs li{
+  background-color:var(--col-medium2);
+  padding:.3rem .5rem;
+  font-size:1.05rem;
+  border-right:1px solid var(--col-light3);
+  border-radius:5px 5px 0 0;
+  cursor:default
+}
+.tabs .active{
+  background-color:rgb(224, 224, 224);
+  color:#585757
+}
+

@@ -10,6 +10,7 @@ export function draw(drawing){
     const lines = Object.values(drawing.lines)
     lines.forEach((lineObj) => {
         let color = lineObj.color
+        console.log(color)
         let linepoints = lineObj.line
 
         let i=1

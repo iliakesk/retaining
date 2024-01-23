@@ -1,4 +1,4 @@
-import  { useCallback, useEffect } from "react";        
+import  { useCallback} from "react";   //, useEffect      
 import PropTypes  from 'prop-types'
 import RetainA from './RetainA'
 import Soil from './Soil'
@@ -7,7 +7,8 @@ import Soil from './Soil'
 
 Data.propTypes = {
   props: PropTypes.object,
-  onUpdate:PropTypes.func
+  onUpdate:PropTypes.func,
+  state: PropTypes.object,
 }
 
 export default function Data(props){
@@ -15,6 +16,7 @@ export default function Data(props){
     const onChange = useCallback(data => {
         props.onUpdate(data)
     })
+    console.log(props.state)
 
 
     return (
