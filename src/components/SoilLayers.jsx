@@ -4,8 +4,8 @@ import PropTypes  from 'prop-types'
 
 
 SoilLayers.propTypes = {
-  data: PropTypes.object,
-  onChange:PropTypes.func
+  isOpen: PropTypes.any,
+  onClose:PropTypes.func
 }
 
 export default function SoilLayers(props){
