@@ -1,7 +1,8 @@
-import  { useCallback, useEffect } from "react";        
+import  { useEffect, useState } from "react";   // useCallback,            
+// import { createPortal } from 'react-dom'; 
 import PropTypes  from 'prop-types'
 import {mergeData} from "../calculations/retainA"//ayto prepei na alljei den mporei na pairnei functions apo to retainA
-
+import SoilLayers from "./SoilLayers"
 
 BackSoil.propTypes = {
   data: PropTypes.object,
@@ -11,13 +12,13 @@ BackSoil.propTypes = {
 export default function BackSoil(props){
 
   console.log("BackSoil updated")
-
+  const [layers, showLayers] = useState(false)
   const {availHeight, availWidth} = props.data
-  const onBlur = useCallback(e => {
-      console.log("useCallback run")
-      const calcs = mergeData(e, props.data)
-      props.onChange(calcs)
-  }, [props])
+  // const onBlur = useCallback(e => {
+  //     console.log("useCallback run")
+  //     const calcs = mergeData(e, props.data)
+  //     props.onChange(calcs)
+  // }, [props])
 
   // ayto pithanws na prepei na vgei ektos tou component. tha prepei ta arxika na ypologizontai apo alloy (diaforetika gia to kathe eidos toixoy)
   useEffect((e) => {
@@ -29,44 +30,27 @@ export default function BackSoil(props){
   const addLayer = ()=>{
     console.log("pressed addLayer")
   }
+  const editLayers = ()=>showLayers(!layers)
+  // const editLayers = ()=>{
+  //   createPortal(
+  //     <SoilLayers/>,
+  //     document.body
+  //   )
+  // }
 
   return(
   <div>
-        <div className="cardsection">
-          <div className="card">
-            <input type="checkbox" id="soil" name="soil" value="True"></input>
-            <label htmlFor="soil" className="toplabel">
-              Soil
-            </label>
-            <div className="card-data">
-              <label>Front ground level:</label>
-              <input id="gorundLevelFront" type="text" name="gorundLevelFront" defaultValue={props.data.gorundLevelFront}  onBlur={onBlur}/>
-              <label>Slope</label>
-              <input id="slopeFront" type="text" name="slopeFront" defaultValue={props.data.slopeFront}  onBlur={onBlur}/>
-              <label>Back ground level:</label>
-              <input id="groundLevelBack" type="text" name="groundLevelBack" defaultValue={props.data.groundLevelBack}  onBlur={onBlur}/>
-              <label>Slope:</label>
-              <input id="slopeBack" type="text" name="slopeBack" defaultValue={props.data.slopeBack}  onBlur={onBlur}/>
-            </div>
-          </div>
-          <div className="card">
-            <input type="checkbox" id="layers" name="layers" defaultValue="True"></input>
-            <label htmlFor="layers" className="toplabel">
-              layers?
-            </label>
-            <div className="card-data">
-              <label>Base length:</label>
-              <input id="baseL" type="text" name="baseLength" defaultValue={props.data.baseLength}  onBlur={onBlur}/>
-              <label>Base thickness:</label>
-              <input id="baseT" type="text" name="baseHeight" defaultValue={props.data.baseHeight}  onBlur={onBlur}/>
-              <label>Wall height:</label>
-              <input id="wallH" type="text" name="wallHeight" defaultValue={props.data.wallHeight}  onBlur={onBlur}/>
-              <label>Wall thickness:</label>
-              <input id="wallT" type="text" name="wallThick" defaultValue={props.data.wallThick}  onBlur={onBlur}/>
-            </div>
-          </div>
-        </div>
+        {props.data.backSoil.map((layer, index)=>{
+            return(
+              <div key={index}>
+                <label>Layer {index || "top"}</label>
+                <div>Soil: {layer.name}, γ={layer.density}, φ={layer.friction}, c={layer.cohesion}</div>
+              </div>
+            )
+        })}
         <input className="btn-modelling" type="button" value="Add Soil Layer" onClick={addLayer}></input>
+        <input className="btn-modelling" type="button" value="Edit Layers" onClick={editLayers}></input>
+        <SoilLayers isOpen = {layers} onClose={()=>showLayers(false)}/>
   </div>
   )
 }

@@ -85,7 +85,11 @@ input{
   padding:1rem
 }
 
-
+.soilLayers{
+  position:absolute;
+  top: 50vh;
+  left:20vw;
+}
 
 
 

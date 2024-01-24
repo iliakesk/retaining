@@ -1,5 +1,29 @@
+function drawArrowLine(x1, y1, x2, y2, arrowSize) {
+            // Draw the line
+            const canvas = document.getElementById("canvas")
+            const ctx = canvas.getContext("2d")
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
 
+            // Calculate arrow angles
+            let angle = Math.atan2(y2 - y1, x2 - x1);
+            let arrowAngle1 = angle - Math.PI / 6;
+            let arrowAngle2 = angle + Math.PI / 6;
 
+            // Draw arrowheads
+            ctx.beginPath();
+            ctx.moveTo(x2, y2);
+            ctx.lineTo(x2 - arrowSize * Math.cos(arrowAngle1), y2 - arrowSize * Math.sin(arrowAngle1));
+            ctx.moveTo(x2, y2);
+            ctx.lineTo(x2 - arrowSize * Math.cos(arrowAngle2), y2 - arrowSize * Math.sin(arrowAngle2));
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x1 + arrowSize * Math.cos(arrowAngle2), y1 + arrowSize * Math.sin(arrowAngle2));
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x1 + arrowSize * Math.cos(arrowAngle1), y1 + arrowSize * Math.sin(arrowAngle1));
+            ctx.stroke();
+        }
 
 
 export function draw(drawing){
@@ -25,6 +49,10 @@ export function draw(drawing){
             nextpoint = linepoints[i]
         }
         ctx.stroke()
+
+        
+        // Call the drawArrowLine function with desired coordinates and arrow size
+        drawArrowLine(100, 350, 100, 100, 7);
     })
 
     // const rectangles = Object.values(drawing.rectangles)
