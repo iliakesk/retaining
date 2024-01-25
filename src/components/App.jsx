@@ -2,6 +2,7 @@ import  { Component } from "react";
 import Data from './Data'
 import Canvas from './Canvas'
 import model from '../data/model'
+import {KB} from '../design/designA'
 
 
 const availHeight = 0.8*window.screen.availHeight
@@ -17,6 +18,13 @@ class App extends Component {
 
   onUpdate(field) {
     this.setState(field);
+    const kb = KB([
+      {x:0, y:0},
+      {x:15, y:0},
+      {x:15, y:15},
+      {x:0, y:15},
+    ])
+    console.log(kb)
   }
 
   componentDidUpdate(){
