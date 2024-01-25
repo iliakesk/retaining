@@ -1,6 +1,6 @@
 import  { useCallback, useEffect } from "react";        
 import PropTypes  from 'prop-types'
-import {mergeData} from "../calculations/retainA"
+import {mergeData} from "../calculations/calcA"
 
 
 RetainA.propTypes = {

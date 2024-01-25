@@ -1,6 +1,6 @@
 import  { useCallback, useEffect } from "react";        
 import PropTypes  from 'prop-types'
-import {mergeData} from "../calculations/retainA"//ayto prepei na alljei den mporei na pairnei functions apo to retainA
+import {mergeData} from "../calculations/calcA"//ayto prepei na alljei den mporei na pairnei functions apo to retainA
 
 
 FrontSoil.propTypes = {
