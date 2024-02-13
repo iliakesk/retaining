@@ -16,7 +16,7 @@ export default function Data(props){
     const onChange = useCallback(data => {
         props.onUpdate(data)
     })
-    console.log(props.state)
+    // console.log(props.state)
 
 
     return (

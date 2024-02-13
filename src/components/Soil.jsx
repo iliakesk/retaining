@@ -18,7 +18,6 @@ export default function Soil(props){
         BackSoil,
         BaseSoil
     };
-    console.log(props)
 
     const [activeTab, setActiveTab] = useState("FrontSoil");
 

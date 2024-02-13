@@ -20,7 +20,7 @@ export default function Canvas({data}) {
 
 
     return (
-        <canvas id="canvas" width={data.availHeight} height={data.availHeight}></canvas>
+        <canvas id="canvas" width={data.visual.availHeight} height={data.visual.availHeight}></canvas>
     );
 }
 

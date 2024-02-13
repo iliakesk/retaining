@@ -1,13 +1,13 @@
 import  { Component } from "react";
 import Data from './Data'
 import Canvas from './Canvas'
-import model from '../data/model'
-import {KB} from '../design/designA'
+import getData from '../data/getData'
+import {checks} from '../design/checks'
 
 
 const availHeight = 0.8*window.screen.availHeight
 const availWidth = 0.8*window.screen.availWidth
-const initState = model(availHeight, availWidth)
+const initState = getData(availHeight, availWidth)
 
 class App extends Component {
   constructor(props) {
@@ -15,21 +15,29 @@ class App extends Component {
     this.state = initState
     this.onUpdate = this.onUpdate.bind(this);
   }
+  
 
   onUpdate(field) {
     this.setState(field);
-    const kb = KB([
-      {x:0, y:0},
-      {x:15, y:0},
-      {x:15, y:15},
-      {x:0, y:15},
-    ])
-    console.log(kb)
+
+    // let modelA = wallVertices(this.state)
+    // let model = [ {x:0, y:0},
+    //               {x:10, y:0},
+    //               {x:5, y:20},
+    //               {x:0, y:20}]
+    // const kb = KB(modelA)
+    // console.log("KB is :")
+    // console.log(kb)
+    // const area = calculateArea(modelA)/1000000
+    // console.log("Area is :")
+    // console.log(area)
   }
 
   componentDidUpdate(){
-    console.log(this.state)
+    checks(this.state)
+    return
 }
+
 
   render() {
     return (

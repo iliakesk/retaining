@@ -34,7 +34,7 @@ export function draw(drawing){
     const lines = Object.values(drawing.lines)
     lines.forEach((lineObj) => {
         let color = lineObj.color
-        console.log(color)
+        // console.log(color)
         let linepoints = lineObj.line
 
         let i=1
@@ -42,7 +42,7 @@ export function draw(drawing){
         let nextpoint = linepoints[i]
         ctx.beginPath()
         ctx.moveTo(startpoint[0], startpoint[1])
-        console.log([startpoint[0], startpoint[1]])
+        // console.log([startpoint[0], startpoint[1]])
         while(nextpoint){
             ctx.lineTo(nextpoint[0], nextpoint[1])
             i=i+1

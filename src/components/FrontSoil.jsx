@@ -9,19 +9,19 @@ FrontSoil.propTypes = {
 }
 
 export default function FrontSoil(props){
-    console.log("FrontSoil updated")
-    console.log(props)
+    // console.log("FrontSoil updated")
+    // console.log(props)
 
     const {availHeight, availWidth} = props.data
     const onBlur = useCallback(e => {
-        console.log("useCallback run")
+        // console.log("useCallback run")
         const calcs = mergeData(e, props.data)
         props.onChange(calcs)
     }, [props])
 
     // ayto pithanws na prepei na vgei ektos tou component. tha prepei ta arxika na ypologizontai apo alloy (diaforetika gia to kathe eidos toixoy)
     useEffect((e) => {
-      console.log("useEffect run")
+      // console.log("useEffect run")
       const {wMargin, hMargin, factor, drawing} = mergeData(e, props.data)
       props.onChange({wMargin, hMargin, factor, drawing})
   }, [availHeight, availWidth])

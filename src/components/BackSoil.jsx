@@ -13,7 +13,7 @@ export default function BackSoil(props){
 
   console.log("BackSoil updated")
   const [layers, showLayers] = useState(false)
-  const {availHeight, availWidth} = props.data
+  const {availHeight, availWidth} = props.data.visual
   // const onBlur = useCallback(e => {
   //     console.log("useCallback run")
   //     const calcs = mergeData(e, props.data)
@@ -40,7 +40,7 @@ export default function BackSoil(props){
 
   return(
   <div>
-        {props.data.backSoil.map((layer, index)=>{
+        {props.data.model.backSoil.map((layer, index)=>{
             return(
               <div key={index}>
                 <label>Layer {index || "top"}</label>
