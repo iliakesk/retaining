@@ -61,7 +61,8 @@
   //           baseSoil:{name:"custom",density:18, friction:40, cohesion:5},
   //           surcharge:20, //na diorthwthei gia na perigrafetai apo ena object pou tha exei metro, shmeiako ;h katenemimeno fortio, apostash apo toixo, ktl. Opws einai twra ypothetei oti to fortio einai panta katanemhmeno kai jekinaei apo th stepsh tou toixou kai paei pros ta pisw ep apeiro
   //           loadOnWall:0,
-  //           material:{density:2350}},
+  //           material:{density:2350},
+  //            stressAllowed:100},
   //     visual:{availHeight,
   //             availWidth,
   //             leftSoilLength:2000,
@@ -70,14 +71,14 @@
   // }
   export default function getData(availHeight, availWidth){
     return {
-      model:{toe: 400,
-            heel: 1450,
-            footHeight: 400,
-            stemHeight: 3800,
+      model:{toe: 300,
+            heel: 1000,
+            footHeight: 300,
+            stemHeight: 2300,
             stemThickness: 300,
-            frontSoil:{depth:700, slope:0},
+            frontSoil:{depth:250, slope:0},
             backSoilSlope:0, 
-            backSoil:[{name:"custom",top:0, bottom:4.2,density:18.5, friction:32, cohesion:0,stresses:{surcharge:{},
+            backSoil:[{name:"custom",top:0, bottom:2.5,density:18, friction:30, cohesion:0,stresses:{surcharge:{},
                                                                                                       water:{},
                                                                                                       selfweight:{}
                                                                                                     }
@@ -85,9 +86,10 @@
                     ],
             waterDepth:10,
             baseSoil:{name:"custom",density:20, friction:10, cohesion:30},
-            surcharge:0, //na diorthwthei gia na perigrafetai apo ena object pou tha exei metro, shmeiako ;h katenemimeno fortio, apostash apo toixo, ktl. Opws einai twra ypothetei oti to fortio einai panta katanemhmeno kai jekinaei apo th stepsh tou toixou kai paei pros ta pisw ep apeiro
+            surcharge:10, //na diorthwthei gia na perigrafetai apo ena object pou tha exei metro, shmeiako ;h katenemimeno fortio, apostash apo toixo, ktl. Opws einai twra ypothetei oti to fortio einai panta katanemhmeno kai jekinaei apo th stepsh tou toixou kai paei pros ta pisw ep apeiro
             loadOnWall:0,
-            material:{density:24}},
+            material:{density:24},
+            stressAllowed:300},
       visual:{availHeight,
               availWidth,
               leftSoilLength:2000,

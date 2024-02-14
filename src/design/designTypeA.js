@@ -11,7 +11,6 @@ export function stabilizingMoment(forces){
 }
 
 export function stabilizingForces(data){
-    data = convertUnits(data)
     let wallForce = selfWeight(data)
     let soilForce = soilWeight(data)
     let waterForce = waterWeight(data)
@@ -19,16 +18,6 @@ export function stabilizingForces(data){
     let onWallForce = loadOnWall(data)
     return {wallForce, soilForce, surfaceForce, waterForce, onWallForce}
 
-}
-
-function convertUnits(data){
-    let dataConv = JSON.parse(JSON.stringify(data))
-    dataConv.model.toe /= 1000
-    dataConv.model.heel /= 1000
-    dataConv.model.footHeight /= 1000
-    dataConv.model.stemHeight /= 1000
-    dataConv.model.stemThickness /= 1000
-    return dataConv
 }
 
 function loadOnWall(data){

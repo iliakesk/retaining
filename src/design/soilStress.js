@@ -9,7 +9,7 @@ export function actingMoment(layers){
                     stresses.selfweight.totalStress*stresses.selfweight.loadingPoint + 
                     stresses.water.totalStress*stresses.water.loadingPoint
     }
-    console.log(layers)
+    // console.log(layers)
     return moment
 }
 

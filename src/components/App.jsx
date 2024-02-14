@@ -22,8 +22,8 @@ class App extends Component {
   }
 
   componentDidUpdate(){
-    console.log(this.state)
-    checks(this.state)
+    // console.log(this.state)
+    console.log(checks(this.state))
 }
 
   render() {
