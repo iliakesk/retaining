@@ -5,36 +5,37 @@ export function actingMoment(layers){
     let moment = 0
     for (let layer of layers){
         let stresses = layer.stresses
-        moment += stresses.surface.totalStress*stresses.surface.loadingPoint +
+        moment += stresses.surcharge.totalStress*stresses.surcharge.loadingPoint +
                     stresses.selfweight.totalStress*stresses.selfweight.loadingPoint + 
                     stresses.water.totalStress*stresses.water.loadingPoint
     }
+    console.log(layers)
     return moment
 }
 
 
 export function actingForces(data){
     let layers = data.model.backSoil
-    let surfacestress = data.model.soilSurfaceStress
+    let surcharge = data.model.surcharge
     let wDepth = data.model.waterDepth
-    layers = surfaceStress(layers, surfacestress)
+    layers = surfaceStress(layers, surcharge)
     layers = waterStress(layers)
     layers = weightStress(layers, wDepth)
     return layers
 }
 
-export function surfaceStress(layers, surfaceStress){
+export function surfaceStress(layers, surcharge){
     layers.map(layer => {
         let Ka = getCoefK(layer)
-        let stress = Ka*surfaceStress
-        layer.stresses.surface = {topStressHor:stress,
+        let stress = Ka*surcharge
+        layer.stresses.surcharge = {topStressHor:stress,
                                 bottomStressHor:stress,
                                 totalStress:stress,
                                 loadingPoint:(layer.bottom - layer.top)/2}
     })
     //adds the lower layers' heights to the upper loading point 
     for(let i = layers.length-2; i>-1; i--){
-        layers[i].stresses.surface.loadingPoint += (layers[i+1].bottom - layers[i+1].top)
+        layers[i].stresses.surcharge.loadingPoint += (layers[i+1].bottom - layers[i+1].top)
     }
     return layers
 }

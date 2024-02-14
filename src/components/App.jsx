@@ -1,8 +1,8 @@
 import  { Component } from "react";
 import Data from './Data'
 import Canvas from './Canvas'
-import model from '../data/model'
-// import {KB} from '../design/designA'
+import model from '../data/getData'
+import {checks} from '../design/checks'
 
 
 const availHeight = 0.8*window.screen.availHeight
@@ -18,18 +18,12 @@ class App extends Component {
 
   onUpdate(field) {
     this.setState(field);
-    // test gia to Kentro Barous
-    // const kb = KB([
-    //   {x:0, y:0},
-    //   {x:15, y:0},
-    //   {x:15, y:15},
-    //   {x:0, y:15},
-    // ])
-    // console.log(kb)
+    
   }
 
   componentDidUpdate(){
     console.log(this.state)
+    checks(this.state)
 }
 
   render() {

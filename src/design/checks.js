@@ -1,3 +1,4 @@
+//NA JEXWRISOYN AYTA POU KANOUN CHECK KOINA GIA OLOUS TOUS TOIXOYS APO AYTA POU KANOUN MONO GIA TON TYPE A
 import {stabilizingMoment, stabilizingForces} from '../design/designTypeA'
 import {actingMoment, actingForces} from '../design/soilStress'
 
@@ -7,8 +8,20 @@ export function checks(data){
     let actingF = actingForces(data)
     let stabilizingF = stabilizingForces(data)
     let frictionCoeff = Math.tan(data.model.baseSoil.friction)
+
+    let aF = 0
+    for (let layer of actingF){
+        let stresses = layer.stresses
+        aF += stresses.surcharge.totalStress +
+                    stresses.selfweight.totalStress + 
+                    stresses.water.totalStress}
+
+    let sF = 0
+    for (const force of Object.values(stabilizingF)){
+        sF += force.load*force.loadingPointX
+    }
     
-    slideCheck(actingF, stabilizingF, frictionCoeff)
+    slideCheck(aF, sF, frictionCoeff)
     
     stabilityCheck(actingF, stabilizingF)
 
@@ -20,6 +33,7 @@ export function slideCheck(actingF, stabilizingF, frictionCoeff){//edw prepei na
     stabilizingF *= frictionCoeff
     let stable = actingF < stabilizingF ? true:false
     let stabilityCoef = stabilizingF/actingF
+    console.log(stabilityCoef)
     //prepei na kanei return ena object me ta stoixeia tou elegxou
     return {stable, stabilityCoef}
 }
@@ -30,6 +44,7 @@ export function stabilityCheck(actingF, stabilizingF){
 
     let stable = actingM < stabilizingM ? true:false
     let stabilityCoef = stabilizingM/actingM
+    console.log(stabilityCoef)
     //prepei na kanei return ena object me ta stoixeia tou elegxou
     return {stable, stabilityCoef, stabilizingM, actingM}
 }

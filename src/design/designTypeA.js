@@ -15,7 +15,7 @@ export function stabilizingForces(data){
     let wallForce = selfWeight(data)
     let soilForce = soilWeight(data)
     let waterForce = waterWeight(data)
-    let surfaceForce = surfaceLoad(data)
+    let surfaceForce = surcharge(data)
     let onWallForce = loadOnWall(data)
     return {wallForce, soilForce, surfaceForce, waterForce, onWallForce}
 
@@ -37,9 +37,9 @@ function loadOnWall(data){
     return {load, loadingPointX}
 }
 
-function surfaceLoad(data){
+function surcharge(data){
 
-    let load = data.model.soilSurfaceStress*data.model.heel
+    let load = data.model.surcharge*data.model.heel
     let loadingPointX = data.model.toe + data.model.stemThickness + data.model.heel/2
     return {load, loadingPointX}
 }
