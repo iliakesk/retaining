@@ -3,6 +3,7 @@
 
 export function actingMoment(layers){
     let moment = 0
+    console.log(layers)
     for (let layer of layers){
         let stresses = layer.stresses
         moment += stresses.surcharge.totalStress*stresses.surcharge.loadingPoint +

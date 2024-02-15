@@ -71,24 +71,24 @@
   // }
   export default function getData(availHeight, availWidth){
     return {
-      model:{toe: 300,
-            heel: 1000,
-            footHeight: 300,
-            stemHeight: 2300,
-            stemThickness: 300,
+      model:{toe: 3200,
+            heel: 0,
+            footHeight: 1500,
+            stemHeight: 4500,
+            stemThickness: 800,
             frontSoil:{depth:250, slope:0},
             backSoilSlope:0, 
-            backSoil:[{name:"custom",top:0, bottom:2.5,density:18, friction:30, cohesion:0,stresses:{surcharge:{},
+            backSoil:[{name:"custom",top:0, bottom:6,density:18, friction:34, cohesion:0,stresses:{surcharge:{},
                                                                                                       water:{},
                                                                                                       selfweight:{}
                                                                                                     }
                       }
                     ],
             waterDepth:10,
-            baseSoil:{name:"custom",density:20, friction:10, cohesion:30},
-            surcharge:10, //na diorthwthei gia na perigrafetai apo ena object pou tha exei metro, shmeiako ;h katenemimeno fortio, apostash apo toixo, ktl. Opws einai twra ypothetei oti to fortio einai panta katanemhmeno kai jekinaei apo th stepsh tou toixou kai paei pros ta pisw ep apeiro
+            baseSoil:{name:"custom",density:18, friction:34, cohesion:30},
+            surcharge:0, //na diorthwthei gia na perigrafetai apo ena object pou tha exei metro, shmeiako ;h katenemimeno fortio, apostash apo toixo, ktl. Opws einai twra ypothetei oti to fortio einai panta katanemhmeno kai jekinaei apo th stepsh tou toixou kai paei pros ta pisw ep apeiro
             loadOnWall:0,
-            material:{density:24},
+            material:{density:25},
             stressAllowed:300},
       visual:{availHeight,
               availWidth,

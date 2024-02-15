@@ -57,6 +57,7 @@ export function stabilityCheck(actingF, stabilizingF){
 
     let stable = actingM < stabilizingM ? true:false
     let stabilityCoef = stabilizingM/actingM
+    
     return {stable, stabilityCoef, stabilizingM, actingM}
 }
 
