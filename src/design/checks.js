@@ -6,7 +6,11 @@ import {actingMoment, actingForces} from '../design/soilStress'
 //na mhn pairnei data, gia na mporei na kanei tous elegxous gia opoiodhopte eidos toixoy
 export function checks(data){
     data = convertUnits(data)
-    let actingF = actingForces(data)
+    let layers = data.model.backSoil
+    let surcharge = data.model.surcharge
+    let wDepth = data.model.waterDepth
+
+    let actingF = actingForces(layers, surcharge, wDepth)
     let stabilizingF = stabilizingForces(data)
     let frictionCoeff = Math.tan(data.model.baseSoil.friction)
     let base = data.model.toe + data.model.stemThickness + data.model.heel
@@ -22,7 +26,7 @@ export function checks(data){
     for (const force of Object.values(stabilizingF)){
         sF += force.load*force.loadingPointX
     }
-    console.log(sF)
+    
     let slideC = slideCheck(aF, sF, frictionCoeff)
     
     let stabilityC = stabilityCheck(actingF, stabilizingF)

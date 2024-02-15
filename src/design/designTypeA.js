@@ -17,7 +17,6 @@ export function stabilizingForces(data){
     let surfaceForce = surcharge(data)
     let onWallForce = loadOnWall(data)
     return {wallForce, soilForce, surfaceForce, waterForce, onWallForce}
-
 }
 
 function loadOnWall(data){

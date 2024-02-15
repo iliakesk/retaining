@@ -15,10 +15,7 @@ export function actingMoment(layers){
 }
 
 
-export function actingForces(data){
-    let layers = data.model.backSoil
-    let surcharge = data.model.surcharge
-    let wDepth = data.model.waterDepth
+export function actingForces(layers, surcharge, wDepth){
     layers = surfaceStress(layers, surcharge)
     layers = waterStress(layers)
     layers = weightStress(layers, wDepth)
@@ -41,8 +38,8 @@ export function surfaceStress(layers, surcharge){
     return layers
 }
 
-export function waterStress(layers, wDepth){
-    let bottomlayer = layers[layers.length - 1]
+export function waterStress(layers){
+    // let bottomlayer = layers[layers.length - 1]
     let waterDensity = 10 // PROSOXH ISWS NA MHN EINAI H IDIA PANTA
     
     layers.map((layer, index) => {
@@ -96,7 +93,7 @@ export function weightStress(layers, wDepth){
 
         //loading point (measured from bottom of each layer)
         loadingPoint = ((layer.bottom - layer.top)*(2 * topStressHor + bottomStressHor)) /
-                    	    (3 * (topStressHor + bottomStressHor))
+                        (3 * (topStressHor + bottomStressHor))
         
         layer.stresses.selfweight = {topStress,
                                     bottomStress,
@@ -112,7 +109,7 @@ export function weightStress(layers, wDepth){
     return layers
 }
 
-function splitLayer(layers,wDepth){
+function splitLayer(layers, wDepth){
     let newLayers = []
     for (let layer of layers){
         if (layer.bottom <= wDepth){

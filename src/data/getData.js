@@ -1,82 +1,22 @@
-// export default function model(availHeight, availWidth){
-//     return {
-//       toe: 500,
-//       heel: 1300,
-//       footHeight: 300,
-//       stemHeight: 2500,
-//       stemThickness: 200,
-//       frontSoil:{depth:400, slope:0},
-//       backSoilSlope:0, 
-//       backSoil:[{name:"custom",top:0, bottom:1000,density:10, friction:28, cohesion:5},{name:"custom",top:1000, bottom:2800,density:10, friction:28, cohesion:5}],
-//       waterDepth:2000,
-//       baseSoil:{},
-//       availHeight,
-//       availWidth,
-//       leftSoilLength:2000,
-//       rightSoilLength:4000
-//     }
-//   }
 
-  // export default function model(availHeight, availWidth){
-  //   return {
-  //     toe: 500,
-  //     heel: 1300,
-  //     footHeight: 300,
-  //     stemHeight: 2500,
-  //     stemThickness: 200,
-  //     frontSoil:{depth:400, slope:0},
-  //     backSoilSlope:0, 
-  //     backSoil:[{name:"custom",top:0, bottom:1.5,density:16, friction:30, cohesion:5},{name:"custom",top:1.5, bottom:5,density:18, friction:40, cohesion:5}],
-  //     waterDepth:1.5,
-  //     baseSoil:{},
-  //     availHeight,
-  //     availWidth,
-  //     leftSoilLength:2000,
-  //     rightSoilLength:4000,
-  //     soilSurfaceStress:20
-  //   }
-  // }
-
-  // export default function getData(availHeight, availWidth){
-  //   return {
-  //     model:{toe: 500,
-  //           heel: 1300,
-  //           footHeight: 300,
-  //           stemHeight: 2500,
-  //           stemThickness: 200,
-  //           frontSoil:{depth:400, slope:0},
-  //           backSoilSlope:0, 
-  //           backSoil:[{name:"custom",top:0, bottom:1.5,density:16, friction:30, cohesion:5,stresses:{surcharge:{},
-  //                                                                                                     water:{},
-  //                                                                                                     selfweight:{}
-  //                                                                                                   }
-  //                     },
-  //                     {name:"custom",top:1.5, bottom:5,density:18, friction:40, cohesion:5,stresses:{surcharge:{},
-  //                                                                                                     water:{},
-  //                                                                                                     selfweight:{}
-  //                                                                                                   }
-  //                     }
-  //                   ],
-  //           waterDepth:1.5,
-  //           baseSoil:{name:"custom",density:18, friction:40, cohesion:5},
-  //           surcharge:20, //na diorthwthei gia na perigrafetai apo ena object pou tha exei metro, shmeiako ;h katenemimeno fortio, apostash apo toixo, ktl. Opws einai twra ypothetei oti to fortio einai panta katanemhmeno kai jekinaei apo th stepsh tou toixou kai paei pros ta pisw ep apeiro
-  //           loadOnWall:0,
-  //           material:{density:2350},
-  //            stressAllowed:100},
-  //     visual:{availHeight,
-  //             availWidth,
-  //             leftSoilLength:2000,
-  //             rightSoilLength:4000}      
-  //   }
-  // }
   export default function getData(availHeight, availWidth){
-    return {
+    return { //tha prepei oi diastaseis na mpoune se metra kai na pollaplasiastoun me 1000 mono gia ton canvas
+      //epishs, tha prepei na graftei ws: model{wall, frontsoil, backsoil, water, baseSoil, surcharge}
+      // to material na mpei sto wall
+      // to stressallowed na mpei sto baseSoil
+      //sto water na mpei waterDepth kai waterDensity
+      // sto surcharge na mpei metro kai shmeio fortishs - apostash apo ton toixo
       model:{toe: 3200,
             heel: 0,
             footHeight: 1500,
             stemHeight: 4500,
             stemThickness: 800,
-            frontSoil:{depth:250, slope:0},
+            frontSoil:[{name:"custom",top:0, bottom:6,density:18, friction:34, cohesion:0,stresses:{surcharge:{},
+                                                                                                      water:{},
+                                                                                                      selfweight:{}
+                                                                                                    }
+                      }
+                    ],
             backSoilSlope:0, 
             backSoil:[{name:"custom",top:0, bottom:6,density:18, friction:34, cohesion:0,stresses:{surcharge:{},
                                                                                                       water:{},
