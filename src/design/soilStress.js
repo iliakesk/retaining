@@ -1,9 +1,9 @@
 
 // ekei pou ua xrisimopoiithoun tha prepei na exw diorthwsei tis diastaseiw apo xiliosta se metra
 
-export function actingMoment(layers){
+export function earthMoment(layers){
     let moment = 0
-    console.log(layers)
+    // console.log(layers)
     for (let layer of layers){
         let stresses = layer.stresses
         moment += stresses.surcharge.totalStress*stresses.surcharge.loadingPoint +
@@ -15,17 +15,18 @@ export function actingMoment(layers){
 }
 
 
-export function actingForces(layers, surcharge, wDepth){
-    layers = surfaceStress(layers, surcharge)
+export function earthPressure(layers, surcharge, wDepth, actpas){
+    layers = surfaceStress(layers, surcharge, actpas)
     layers = waterStress(layers)
-    layers = weightStress(layers, wDepth)
+    layers = weightStress(layers, wDepth, actpas)
     return layers
 }
 
-export function surfaceStress(layers, surcharge){
+export function surfaceStress(layers, surcharge, actpas){
     layers.map(layer => {
-        let Ka = getCoefK(layer)
-        let stress = Ka*surcharge
+        //active or passive coefficient Ka or Kp
+        let Kap = getCoefK(layer, actpas)
+        let stress = Kap*surcharge
         layer.stresses.surcharge = {topStressHor:stress,
                                 bottomStressHor:stress,
                                 totalStress:stress,
@@ -67,7 +68,7 @@ export function waterStress(layers){
     return layers
 }
 
-export function weightStress(layers, wDepth){
+export function weightStress(layers, wDepth, actpas){
     let waterDensity = 10 // PROSOXH ISWS NA MHN EINAI H IDIA PANTA
     let bottomlayer = layers[layers.length - 1]
     let totalDepth = bottomlayer.bottom
@@ -82,12 +83,12 @@ export function weightStress(layers, wDepth){
         bottomStress = layer.inwater ?
                             (layer.bottom - layer.top) * layer.density + topStress - (totalDepth - wDepth) * waterDensity :
                             (layer.bottom - layer.top) * layer.density + topStress
-        //active coefficient Ka
-        let Ka = getCoefK(layer)
+        //active or passive coefficient Ka or Kp
+        let Kap = getCoefK(layer, actpas)
 
         //horizontal Stress
-        topStressHor = Ka*topStress
-        bottomStressHor = Ka*bottomStress
+        topStressHor = Kap*topStress
+        bottomStressHor = Kap*bottomStress
         //synoliko stress (emvadon sximatos)
         totalStress = (layer.bottom - layer.top)*(topStressHor + bottomStressHor)/2
 
@@ -134,7 +135,8 @@ function splitLayer(layers, wDepth){
 }
 
 
-function getCoefK(layer){
-    return (Math.tan((45-layer.friction/2)*Math.PI/180))**2
+function getCoefK(layer, actpas){
+    let K = actpas === "active" ? (Math.tan((45-layer.friction/2)*Math.PI/180))**2 : (Math.tan((45+layer.friction/2)*Math.PI/180))**2
+    return K
 }
 

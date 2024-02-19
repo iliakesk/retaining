@@ -10,64 +10,73 @@ export function stabilizingMoment(forces){
     return moment
 }
 
-export function stabilizingForces(data){
-    let wallForce = selfWeight(data)
-    let soilForce = soilWeight(data)
-    let waterForce = waterWeight(data)
-    let surfaceForce = surcharge(data)
-    let onWallForce = loadOnWall(data)
-    return {wallForce, soilForce, surfaceForce, waterForce, onWallForce}
+export function stabilizingForces(model){
+    // console.log(model)
+    let frontPointX = model.wall.toe/2
+    let backPointX = model.wall.toe + model.wall.stemThickness + model.wall.heel/2
+    let wallF = selfWeight(model)
+    let backSoilF = soilWeight(model.backSoil, backPointX)
+    let frontSoilF = soilWeight(model.frontSoil, frontPointX)
+    let waterF = waterWeight(model)
+    let backSurfaceF = surchargeBack(model.wall, model.surcharge.back)
+    let frontSurfaceF = surchargeFront(model.wall, model.surcharge.front)
+    let onWallF = loadOnWall(model)
+    return {wallF, backSoilF, frontSoilF, backSurfaceF, frontSurfaceF, waterF, onWallF}
 }
 
-function loadOnWall(data){
-    let load = data.model.loadOnWall
-    let loadingPointX = data.model.toe + data.model.stemThickness/2
+function loadOnWall(model){
+    let load = model.wall.loadOnWall
+    let loadingPointX = model.wall.toe + model.wall.stemThickness/2
     return {load, loadingPointX}
 }
 
-function surcharge(data){
-
-    let load = data.model.surcharge*data.model.heel
-    let loadingPointX = data.model.toe + data.model.stemThickness + data.model.heel/2
+function surchargeBack(wall, surcharge){
+    let load = surcharge.value*wall.heel
+    let loadingPointX = wall.toe + wall.stemThickness + wall.heel/2
     return {load, loadingPointX}
 }
 
-function soilWeight(data){
-    let layers = data.model.backSoil
+function surchargeFront(wall, surcharge){
+    let load = surcharge.value*wall.toe
+    let loadingPointX = wall.toe/2
+    return {load, loadingPointX}
+}
+
+function soilWeight(layers, loadingPointX){
     let load = 0
+    // console.log(layers)
     for (let layer of layers){
         load += (layer.bottom-layer.top)*layer.density
     }
-    let loadingPointX = data.model.toe + data.model.stemThickness + data.model.heel/2
     return {load, loadingPointX}        
 }
 
-function waterWeight(data){
+function waterWeight(model){
     let waterDensity = 10 // PROSOXH ISWS NA MHN EINAI H IDIA PANTA
-    let load = waterDensity*data.model.heel*data.model.waterDepth
-    let loadingPointX = data.model.toe + data.model.stemThickness + data.model.heel/2
+    let load = waterDensity*model.wall.heel*model.water.depth
+    let loadingPointX = model.wall.toe + model.wall.stemThickness + model.wall.heel/2
     return {load, loadingPointX}
 }
 
-function selfWeight(data){
-    let vertices = wallVertices(data)
+function selfWeight(model){
+    let vertices = wallVertices(model)
     let area = calculateArea(vertices)
     let centroid = KB(vertices)
-    let load = area*data.model.material.density
+    let load = area*model.wall.material.density
     let loadingPointX = centroid.x
     return {load, loadingPointX}
 }
 
-function wallVertices(data){
+function wallVertices(model){
     return [
             {x: 0, y: 0},
-            {x: 0, y: data.model.footHeight},
-            {x: data.model.toe, y: data.model.footHeight},
-            {x: data.model.toe, y: data.model.stemHeight+data.model.footHeight},
-            {x: data.model.toe+data.model.stemThickness, y: data.model.stemHeight+data.model.footHeight},
-            {x: data.model.toe+data.model.stemThickness, y: data.model.footHeight},
-            {x: data.model.toe+data.model.stemThickness+data.model.heel, y: data.model.footHeight},
-            {x: data.model.toe+data.model.stemThickness+data.model.heel, y: 0}
+            {x: 0, y: model.wall.footHeight},
+            {x: model.wall.toe, y: model.wall.footHeight},
+            {x: model.wall.toe, y: model.wall.stemHeight+model.wall.footHeight},
+            {x: model.wall.toe+model.wall.stemThickness, y: model.wall.stemHeight+model.wall.footHeight},
+            {x: model.wall.toe+model.wall.stemThickness, y: model.wall.footHeight},
+            {x: model.wall.toe+model.wall.stemThickness+model.wall.heel, y: model.wall.footHeight},
+            {x: model.wall.toe+model.wall.stemThickness+model.wall.heel, y: 0}
           ]
   }
 

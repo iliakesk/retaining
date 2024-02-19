@@ -26,35 +26,61 @@ function drawArrowLine(x1, y1, x2, y2, arrowSize) {
         }
 
 
+function drawWall(wall){
+    const canvas = document.getElementById("canvas")
+    const ctx = canvas.getContext("2d")
+
+    const linepoints = wall.line
+
+    let i=1
+    let startpoint = linepoints[0]
+    let nextpoint = linepoints[i]
+    ctx.beginPath()
+    ctx.moveTo(startpoint[0], startpoint[1])
+    
+    while(nextpoint){
+        ctx.lineTo(nextpoint[0], nextpoint[1])
+        i=i+1
+        nextpoint = linepoints[i]
+    }
+    ctx.stroke()
+}
+
+function drawground(ground){
+    const canvas = document.getElementById("canvas")
+    const ctx = canvas.getContext("2d")
+
+    const linepoints = ground.line
+
+    let i=1
+    let startpoint = linepoints[i-1]
+    let nextpoint = linepoints[i]
+    ctx.beginPath()
+        
+    while(nextpoint){
+        ctx.moveTo(startpoint[0], startpoint[1])
+        ctx.lineTo(nextpoint[0], nextpoint[1])
+        i=i+2
+        startpoint = linepoints[i-1]
+        nextpoint = linepoints[i]
+    }
+    ctx.stroke()
+}
+
 export function draw(drawing){
     const canvas = document.getElementById("canvas")
     const ctx = canvas.getContext("2d")
     ctx.clearRect(0,0,canvas.width, canvas.height)
 
-    const lines = Object.values(drawing.lines)
-    lines.forEach((lineObj) => {
-        let color = lineObj.color
-        // console.log(color)
-        let linepoints = lineObj.line
+    const leftground = drawing.lines.leftGround
+    drawground(leftground)
+    const rightground = drawing.lines.rightGround
+    drawground(rightground)
 
-        let i=1
-        let startpoint = linepoints[0]
-        let nextpoint = linepoints[i]
-        ctx.beginPath()
-        ctx.moveTo(startpoint[0], startpoint[1])
-        // console.log([startpoint[0], startpoint[1]])
-        while(nextpoint){
-            ctx.lineTo(nextpoint[0], nextpoint[1])
-            i=i+1
-            nextpoint = linepoints[i]
-        }
-        ctx.stroke()
 
-        
-        // Call the drawArrowLine function with desired coordinates and arrow size
-        drawArrowLine(100, 350, 100, 100, 7);
-    })
-
+    const wall = drawing.lines.wall
+    drawWall(wall)
+    drawArrowLine(100, 350, 100, 100, 7);
     // const rectangles = Object.values(drawing.rectangles)
     // const dims = Object.values(drawing.dims)
     // const text = Object.values(drawing.text)

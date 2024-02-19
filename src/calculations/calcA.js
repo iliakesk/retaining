@@ -2,12 +2,14 @@
 // ypologizei dedomena toixoy, diastaseis, kentro sxedioy ktl
 export function mergeData(e, data){
     if (e){
-      data.model.model[e.target.name] = Number(e.target.value)
+      data.model.model[e.target.name] = Number(e.target.value) 
     }
     // kati prepei na valw edw se periptvsh pou to toe i to heel ypervoun to xwma dejia i aristera
     
-    const designWidth = /*data.model.toe+data.model.heel+*/data.model.stemThickness+data.visual.leftSoilLength+data.visual.rightSoilLength
-    const designHeight = data.model.footHeight+data.model.stemHeight
+    const model = convertUnits(data.model)
+    
+    const designWidth = /*model.wall.toe+model.wall.heel+*/model.wall.stemThickness+data.visual.leftSoilLength+data.visual.rightSoilLength
+    const designHeight = model.wall.footHeight+model.wall.stemHeight
   
     const factor = scaleFactor(designWidth, designHeight)
     const {wMargin, hMargin} = calcMargins(designWidth, designHeight, factor)
@@ -36,43 +38,82 @@ export function mergeData(e, data){
   }
 
   
+function convertUnits(model){
+    let scaleModel = JSON.parse(JSON.stringify(model))
+    scaleModel.wall.toe *= 1000
+    scaleModel.wall.heel *= 1000
+    scaleModel.wall.footHeight *= 1000
+    scaleModel.wall.stemHeight *= 1000
+    scaleModel.wall.stemThickness *= 1000
+    scaleModel.frontSoil.map(item =>{
+      item.top *= 1000
+      item.bottom *= 1000
+    })
+    scaleModel.backSoil.map(item =>{
+      item.top *= 1000
+      item.bottom *= 1000
+    })
+    console.log(scaleModel)
+    return scaleModel
+}
+
+
   function createShapes(data, wMargin, hMargin, factor){
-      // console.log({wMargin, hMargin})
-      const lines = {leftGround:{
-                                  color:"color 1",
-                                  line:[
-                                        [wMargin, data.visual.availHeight - hMargin - factor*data.model.frontSoil.depth],
-                                        [factor*data.visual.leftSoilLength + wMargin, data.visual.availHeight - hMargin - factor*data.model.frontSoil.depth]
-                                      ]
-                                },
-                    rightGround:{
-                                  color:"color 2",
-                                  //  !!!!!!!!!!!!!!!!!!  ========>  na kanw kati me map function gia na vgaxzei swsta ola ta layers toy backSoil pou pleon einai array kai na mhn exw to [0]
-                                  line:[
-                                        [wMargin + factor*data.visual.leftSoilLength + factor*data.model.stemThickness, data.visual.availHeight - hMargin - factor*data.model.backSoil[0].depth],
-                                        [wMargin + factor*data.visual.leftSoilLength + factor*data.model.stemThickness + factor*data.visual.rightSoilLength, data.visual.availHeight - hMargin - factor*data.model.backSoil[0].depth]
-                                      ]
-                                  // line:[
-                                  //       [wMargin + factor*data.visual.leftSoilLength + factor*data.model.stemThickness, data.visual.availHeight - hMargin - factor*data.model.backSoil[0].depth],
-                                  //       [wMargin + factor*data.visual.leftSoilLength + factor*data.model.stemThickness + factor*data.visual.rightSoilLength, data.visual.availHeight - hMargin - factor*data.model.backSoil[0].depth]
-                                  //     ]
-                                },
+      const model = convertUnits(data.model)
+
+      const frontsoil = model.frontSoil
+      const leftGroundLines = frontsoil.flatMap(line => {
+            let top = line.top
+            let bottom = line.bottom
+            let limittop = top < model.wall.footHeight ? 1 : 0
+            let limitbottom = bottom < model.wall.footHeight ? 1 : 0
+            return [[wMargin, data.visual.availHeight - hMargin - factor * top],
+                    [factor * data.visual.leftSoilLength + wMargin - factor*model.wall.toe*limittop, data.visual.availHeight - hMargin - factor * top],
+                    [wMargin, data.visual.availHeight - hMargin - factor * bottom],
+                    [factor * data.visual.leftSoilLength + wMargin - factor*model.wall.toe*limitbottom, data.visual.availHeight - hMargin - factor * bottom]]
+          })
+
+          const backsoil = model.backSoil
+          const rightGroundLines = backsoil.flatMap(line => {
+                let top = line.top
+                let bottom = line.bottom
+                let limittop = top < model.wall.footHeight ? 1 : 0
+                let limitbottom = bottom < model.wall.footHeight ? 1 : 0
+                return [[wMargin + factor*data.visual.leftSoilLength + factor*model.wall.stemThickness + factor*model.wall.heel*limittop, data.visual.availHeight - hMargin - factor * top],
+                        [wMargin + factor*data.visual.leftSoilLength + factor*model.wall.stemThickness + factor*data.visual.rightSoilLength, data.visual.availHeight - hMargin - factor * top],
+                        [wMargin + factor*data.visual.leftSoilLength + factor*model.wall.stemThickness + factor*model.wall.heel*limitbottom, data.visual.availHeight - hMargin - factor * bottom],
+                        [wMargin + factor*data.visual.leftSoilLength + factor*model.wall.stemThickness + factor*data.visual.rightSoilLength, data.visual.availHeight - hMargin - factor * bottom]]
+              })
+
+
+
+      const leftGround = {color:"color 1", line:leftGroundLines}
+
+
+      const rightGround = {color:"color 2", line:rightGroundLines}
+                        
+
+
+
+      const lines = {leftGround,
+                    rightGround,
                     wall:{
                                   color:"color 3",
                                   line:[
-                                        [wMargin + factor*(data.visual.leftSoilLength - data.model.toe), data.visual.availHeight - hMargin],//katw aristera
-                                        [wMargin + factor*(data.visual.leftSoilLength - data.model.toe), data.visual.availHeight - hMargin - factor*(data.model.footHeight)],//panw aristera
-                                        [wMargin + factor*(data.visual.leftSoilLength), data.visual.availHeight - hMargin - factor*(data.model.footHeight)],//mesiaristera
-                                        [wMargin + factor*(data.visual.leftSoilLength), data.visual.availHeight - hMargin - factor*(data.model.footHeight+data.model.stemHeight)],//mesi panw aristera
-                                        [wMargin + factor*(data.visual.leftSoilLength + data.model.stemThickness), data.visual.availHeight - hMargin - factor*(data.model.footHeight+data.model.stemHeight)],//mesi panw dejia
-                                        [wMargin + factor*(data.visual.leftSoilLength + data.model.stemThickness), data.visual.availHeight - hMargin - factor*(data.model.footHeight)],//mesi dejia
-                                        [wMargin + factor*(data.visual.leftSoilLength + data.model.stemThickness+data.model.heel), data.visual.availHeight - hMargin - factor*(data.model.footHeight)],//panw dejia
-                                        [wMargin + factor*(data.visual.leftSoilLength + data.model.stemThickness+data.model.heel), data.visual.availHeight - hMargin],//katw dejia
-                                        [wMargin + factor*(data.visual.leftSoilLength - data.model.toe), data.visual.availHeight - hMargin]//prwto
+                                        [wMargin + factor*(data.visual.leftSoilLength - model.wall.toe), data.visual.availHeight - hMargin],//katw aristera
+                                        [wMargin + factor*(data.visual.leftSoilLength - model.wall.toe), data.visual.availHeight - hMargin - factor*(model.wall.footHeight)],//panw aristera
+                                        [wMargin + factor*(data.visual.leftSoilLength), data.visual.availHeight - hMargin - factor*(model.wall.footHeight)],//mesiaristera
+                                        [wMargin + factor*(data.visual.leftSoilLength), data.visual.availHeight - hMargin - factor*(model.wall.footHeight+model.wall.stemHeight)],//mesi panw aristera
+                                        [wMargin + factor*(data.visual.leftSoilLength + model.wall.stemThickness), data.visual.availHeight - hMargin - factor*(model.wall.footHeight+model.wall.stemHeight)],//mesi panw dejia
+                                        [wMargin + factor*(data.visual.leftSoilLength + model.wall.stemThickness), data.visual.availHeight - hMargin - factor*(model.wall.footHeight)],//mesi dejia
+                                        [wMargin + factor*(data.visual.leftSoilLength + model.wall.stemThickness+model.wall.heel), data.visual.availHeight - hMargin - factor*(model.wall.footHeight)],//panw dejia
+                                        [wMargin + factor*(data.visual.leftSoilLength + model.wall.stemThickness+model.wall.heel), data.visual.availHeight - hMargin],//katw dejia
+                                        [wMargin + factor*(data.visual.leftSoilLength - model.wall.toe), data.visual.availHeight - hMargin]//prwto
                                       ]
                                 }
                     }
       const shapes = {lines}
+      
       return shapes
   }
 
