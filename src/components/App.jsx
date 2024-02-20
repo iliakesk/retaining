@@ -2,7 +2,7 @@ import  { Component } from "react";
 import Data from './Data'
 import Canvas from './Canvas'
 import model from '../data/getData'
-// import {checks} from '../design/checks'
+import {checks} from '../design/checks'
 
 
 const availHeight = 0.8*window.screen.availHeight
@@ -22,7 +22,7 @@ class App extends Component {
   }
 
   componentDidUpdate(){
-    // console.log(this.state)
+    checks(this.state.model)
     console.log(this.state)
 }
 

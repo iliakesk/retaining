@@ -3,20 +3,20 @@ import {stabilizingMoment, stabilizingForces} from '../design/designTypeA'
 import {earthMoment, earthPressure} from '../design/soilStress'
 
 
-//na mhn pairnei data, gia na mporei na kanei tous elegxous gia opoiodhopte eidos toixoy
+//na mhn pairnei data, gia na mporei na kanei tous elegxous gia opoiodhopte eidos toixoy. Na pairnei analytika ta dedomena
 export function checks(model){
-    let surcharge = model.surcharge.back.value//thelei na lamvanw ypopsh mou afenos kai to frontsoil alla kai to position tou surcharge
+    let surcharge = model.surcharge.back.value//thelei na lamvanw ypopsh mou kai to position tou surcharge
     let wDepth = model.water.depth
 
     let backPressureF = earthPressure(model.backSoil, surcharge, wDepth, "active")
-    let frontPressureF = earthPressure(model.frontSoil, surcharge, wDepth, "passive") //<== kapou prepei na to xrhsimopoihsw kai auto
+    
+    let frontPressureF = earthPressure(model.frontSoil, surcharge, wDepth, "passive")
     let stabilizingF = stabilizingForces(model)
     let frictionCoeff = Math.tan(model.baseSoil.friction)
     let base = model.wall.toe + model.wall.stemThickness + model.wall.heel
 
-    let totalActingF = sumActingForces(backPressureF)
-    let totalStabilizingF = sumStabilizingForces(stabilizingF)
-    
+    let totalActingF = sumSoilForces(backPressureF)
+    let totalStabilizingF = sumStabilizingForces(stabilizingF) + sumSoilForces(frontPressureF)
     let slideC = slideCheck(totalActingF, totalStabilizingF, frictionCoeff)
     
     let overturningC = overturningCheck(backPressureF, stabilizingF)
@@ -28,7 +28,7 @@ export function checks(model){
     return {slideC, overturningC, groundC, eccentricityC}
 }
 
-function sumActingForces(actingF){
+function sumSoilForces(actingF){
     let aF = 0
     for (let layer of actingF){
         let stresses = layer.stresses
@@ -50,8 +50,11 @@ function sumStabilizingForces(stabilizingF){
 export function slideCheck(actingF, stabilizingF, frictionCoeff){//edw prepei na mpei kai to tanφ
     stabilizingF *= frictionCoeff
     let stable = actingF < stabilizingF ? true:false
-    let overturningCoef = stabilizingF/actingF
-    return {stable, overturningCoef}
+    let slidingCoef = stabilizingF/actingF
+    console.log(stabilizingF)
+    console.log(actingF)
+    console.log(slidingCoef)
+    return {stable, slidingCoef}
 }
 
 export function overturningCheck(actingF, stabilizingF){
@@ -60,7 +63,9 @@ export function overturningCheck(actingF, stabilizingF){
 
     let stable = actingM < stabilizingM ? true:false
     let overturningCoef = stabilizingM/actingM
-    
+    console.log(stabilizingM)
+    console.log(actingM)
+    console.log(overturningCoef)
     return {stable, overturningCoef, stabilizingM, actingM}
 }
 

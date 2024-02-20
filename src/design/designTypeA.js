@@ -12,11 +12,13 @@ export function stabilizingMoment(forces){
 
 export function stabilizingForces(model){
     // console.log(model)
-    let frontPointX = model.wall.toe/2
-    let backPointX = model.wall.toe + model.wall.stemThickness + model.wall.heel/2
+    const toe = model.wall.toe
+    const heel = model.wall.heel
+    let frontPointX = toe/2
+    let backPointX = toe + model.wall.stemThickness + heel/2
     let wallF = selfWeight(model)
-    let backSoilF = soilWeight(model.backSoil, backPointX)
-    let frontSoilF = soilWeight(model.frontSoil, frontPointX)
+    let backSoilF = soilWeight(model.backSoil, backPointX, heel)
+    let frontSoilF = soilWeight(model.frontSoil, frontPointX, toe)
     let waterF = waterWeight(model)
     let backSurfaceF = surchargeBack(model.wall, model.surcharge.back)
     let frontSurfaceF = surchargeFront(model.wall, model.surcharge.front)
@@ -42,12 +44,16 @@ function surchargeFront(wall, surcharge){
     return {load, loadingPointX}
 }
 
-function soilWeight(layers, loadingPointX){
+function soilWeight(layers, loadingPointX, footpart){
     let load = 0
-    // console.log(layers)
-    for (let layer of layers){
-        load += (layer.bottom-layer.top)*layer.density
+    console.log(layers)
+    for (let layer of layers){ //prosoxh edw den prepei na ypologizei o,ti einai parakatw apo thn anw epifaneia tou heel, giati ousiastika dinei to varos tou xwmatos pou "voithaei" ton toixo
+        // console.log(layer.top)
+        // console.log(layer.bottom)
+        // console.log(layer.density)
+        load += (layer.top-layer.bottom)*layer.density*footpart
     }
+    // console.log(load)
     return {load, loadingPointX}        
 }
 
@@ -63,6 +69,7 @@ function selfWeight(model){
     let area = calculateArea(vertices)
     let centroid = KB(vertices)
     let load = area*model.wall.material.density
+    // console.log(load)
     let loadingPointX = centroid.x
     return {load, loadingPointX}
 }
