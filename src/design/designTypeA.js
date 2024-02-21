@@ -55,6 +55,7 @@ function soilWeight(layers, loadingPointX, footpart, footheight){
     }
     const lastlayer = layers.slice(-1)[0]
     load -= lastlayer.density* footheight *footpart //afairei to ypsos xwmatos pou antistoixei sth vash
+    // console.log(load)
     return {load, loadingPointX}        
 }
 

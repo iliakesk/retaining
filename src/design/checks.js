@@ -5,16 +5,18 @@ import {earthMoment, earthPressure} from '../design/soilStress'
 
 //na mhn pairnei data, gia na mporei na kanei tous elegxous gia opoiodhopte eidos toixoy. Na pairnei analytika ta dedomena
 export function checks(model){
-    let surcharge = model.surcharge.back.value//thelei na lamvanw ypopsh mou kai to position tou surcharge
+    let surchargeback = model.surcharge.back.value//thelei na lamvanw ypopsh mou kai to position tou surcharge
+    let surchargefront = model.surcharge.front.value//thelei na lamvanw ypopsh mou kai to position tou surcharge
     let wDepth = model.water.depth
 
-    let backPressureF = earthPressure(model.backSoil, surcharge, wDepth, "active")
-    console.log(backPressureF)
-    
-    let frontPressureF = earthPressure(model.frontSoil, surcharge, wDepth, "passive")
-    console.log(frontPressureF)
+    let backPressureF = earthPressure(model.backSoil, surchargeback, wDepth, 1)
+    // console.log(backPressureF)
+    console.log(surchargeback)
+    let frontPressureF = earthPressure(model.frontSoil, surchargefront, wDepth, 0)
+    // console.log(frontPressureF)
 
     let stabilizingF = stabilizingForces(model)
+    console.log(stabilizingF)
     let frictionCoeff = Math.tan(model.baseSoil.friction)
     let base = model.wall.toe + model.wall.stemThickness + model.wall.heel
 
@@ -38,12 +40,13 @@ function sumSoilForces(actingF){
         aF += stresses.surcharge.totalStress +
                     stresses.selfweight.totalStress + 
                     stresses.water.totalStress}
+    // console.log(aF)
     return aF
 }
 
 function sumStabilizingForces(stabilizingF){
     let sF = 0
-    console.log(stabilizingF)
+    // console.log(stabilizingF)
     for (const force of Object.values(stabilizingF)){
         sF += force.load*force.loadingPointX
     }

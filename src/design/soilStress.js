@@ -16,14 +16,16 @@ export function earthMoment(layers){
 
 
 export function earthPressure(layers, surcharge, wDepth, actpas){
+    console.log(layers)
     layers = surfaceStress(layers, surcharge, actpas)
     layers = waterStress(layers)
     layers = weightStress(layers, wDepth, actpas)
+    console.log(layers)
     return layers
 }
 
 export function surfaceStress(layers, surcharge, actpas){
-    console.log(surcharge)
+    // console.log(surcharge)
     layers.map(layer => {
         //active or passive coefficient Ka or Kp
         let Kap = getCoefK(layer, actpas)
@@ -140,7 +142,7 @@ function splitLayer(layers, wDepth){
 
 
 function getCoefK(layer, actpas){
-    let K = actpas === "active" ? (Math.tan((45-layer.friction/2)*Math.PI/180))**2 : (Math.tan((45+layer.friction/2)*Math.PI/180))**2
+    let K = actpas ? (Math.tan((45-layer.friction/2)*Math.PI/180))**2 : (Math.tan((45+layer.friction/2)*Math.PI/180))**2
     return K
 }
 

@@ -22,6 +22,7 @@ class App extends Component {
   }
 
   componentDidUpdate(){
+    console.log(this.state)
     checks(this.state.model)
     console.log(this.state)
 }
