@@ -9,8 +9,11 @@ export function checks(model){
     let wDepth = model.water.depth
 
     let backPressureF = earthPressure(model.backSoil, surcharge, wDepth, "active")
+    console.log(backPressureF)
     
     let frontPressureF = earthPressure(model.frontSoil, surcharge, wDepth, "passive")
+    console.log(frontPressureF)
+
     let stabilizingF = stabilizingForces(model)
     let frictionCoeff = Math.tan(model.baseSoil.friction)
     let base = model.wall.toe + model.wall.stemThickness + model.wall.heel
@@ -40,6 +43,7 @@ function sumSoilForces(actingF){
 
 function sumStabilizingForces(stabilizingF){
     let sF = 0
+    console.log(stabilizingF)
     for (const force of Object.values(stabilizingF)){
         sF += force.load*force.loadingPointX
     }
@@ -51,9 +55,9 @@ export function slideCheck(actingF, stabilizingF, frictionCoeff){//edw prepei na
     stabilizingF *= frictionCoeff
     let stable = actingF < stabilizingF ? true:false
     let slidingCoef = stabilizingF/actingF
-    console.log(stabilizingF)
-    console.log(actingF)
-    console.log(slidingCoef)
+    // console.log(stabilizingF)
+    // console.log(actingF)
+    // console.log(slidingCoef)
     return {stable, slidingCoef}
 }
 
@@ -63,9 +67,9 @@ export function overturningCheck(actingF, stabilizingF){
 
     let stable = actingM < stabilizingM ? true:false
     let overturningCoef = stabilizingM/actingM
-    console.log(stabilizingM)
-    console.log(actingM)
-    console.log(overturningCoef)
+    // console.log(stabilizingM)
+    // console.log(actingM)
+    // console.log(overturningCoef)
     return {stable, overturningCoef, stabilizingM, actingM}
 }
 

@@ -14,11 +14,12 @@ export function stabilizingForces(model){
     // console.log(model)
     const toe = model.wall.toe
     const heel = model.wall.heel
+    const footheight = model.wall.footHeight
     let frontPointX = toe/2
     let backPointX = toe + model.wall.stemThickness + heel/2
     let wallF = selfWeight(model)
-    let backSoilF = soilWeight(model.backSoil, backPointX, heel)
-    let frontSoilF = soilWeight(model.frontSoil, frontPointX, toe)
+    let backSoilF = soilWeight(model.backSoil, backPointX, heel, footheight)
+    let frontSoilF = soilWeight(model.frontSoil, frontPointX, toe, footheight)
     let waterF = waterWeight(model)
     let backSurfaceF = surchargeBack(model.wall, model.surcharge.back)
     let frontSurfaceF = surchargeFront(model.wall, model.surcharge.front)
@@ -44,22 +45,23 @@ function surchargeFront(wall, surcharge){
     return {load, loadingPointX}
 }
 
-function soilWeight(layers, loadingPointX, footpart){
+function soilWeight(layers, loadingPointX, footpart, footheight){
     let load = 0
-    console.log(layers)
-    for (let layer of layers){ //prosoxh edw den prepei na ypologizei o,ti einai parakatw apo thn anw epifaneia tou heel, giati ousiastika dinei to varos tou xwmatos pou "voithaei" ton toixo
+    for (let layer of layers){
         // console.log(layer.top)
         // console.log(layer.bottom)
         // console.log(layer.density)
         load += (layer.top-layer.bottom)*layer.density*footpart
     }
-    // console.log(load)
+    const lastlayer = layers.slice(-1)[0]
+    load -= lastlayer.density* footheight *footpart //afairei to ypsos xwmatos pou antistoixei sth vash
     return {load, loadingPointX}        
 }
 
 function waterWeight(model){
     let waterDensity = 10 // PROSOXH ISWS NA MHN EINAI H IDIA PANTA
-    let load = waterDensity*model.wall.heel*model.water.depth
+    const wdepth = model.water.depth > 0 ? model.water.depth : 0
+    let load = waterDensity*model.wall.heel*wdepth
     let loadingPointX = model.wall.toe + model.wall.stemThickness + model.wall.heel/2
     return {load, loadingPointX}
 }

@@ -53,7 +53,7 @@ function convertUnits(model){
       item.top *= 1000
       item.bottom *= 1000
     })
-    console.log(scaleModel)
+    // console.log(scaleModel)
     return scaleModel
 }
 

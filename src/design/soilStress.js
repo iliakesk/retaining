@@ -23,9 +23,13 @@ export function earthPressure(layers, surcharge, wDepth, actpas){
 }
 
 export function surfaceStress(layers, surcharge, actpas){
+    console.log(surcharge)
     layers.map(layer => {
         //active or passive coefficient Ka or Kp
         let Kap = getCoefK(layer, actpas)
+        // console.log(layer)
+        // console.log(actpas)
+        // console.log(Kap)
         let stress = Kap*surcharge
         layer.stresses.surcharge = {topStressHor:stress,
                                 bottomStressHor:stress,
